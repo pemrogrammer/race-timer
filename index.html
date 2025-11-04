@@ -2,258 +2,32 @@
 <html>
 
 <head>
-	<title id="title">Race Stopwatch App V1.9</title>
-	<link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
+    <title id="title">Race Stopwatch App V1.9</title>
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
 
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css" />
-	<link rel="stylesheet" type="text/css" href="assets/css/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome/css/font-awesome.min.css" />
 
 </head>
 
 <body>
-	<audio src="assets/sound/main-theme.mp3" id="mainThemeAudio" preload="auto"></audio>
-	<audio src="assets/sound/applause.mp3" id="applauseAudio" preload="auto"></audio>
-
-	<audio src="assets/sound/prepare.mp3" id="prepare" preload="auto"></audio>
-	<audio src="assets/sound/smb_stage_clear.wav" id="raceEndAudio" preload="auto"></audio>
-	<audio src="assets/sound/smb_1-up.wav" id="checkpointSound" preload="auto"></audio>
-	<audio src="assets/sound/start.mp3" id="start" preload="auto"></audio>
-	<audio src="assets/sound/times_up.mp3" id="timesUpAudio" preload="auto"></audio>
-
-	<div class="bg-image1" id="bg-image1"></div>
-	<div class="bg-image2" id="bg-image2"></div>
-	<!-- <div class="bg-image3" id="bg-image3"></div> -->
-	<div class="bg-image4" id="bg-image4"></div>
-
-	<!-- <div class="left-btn-container">
-		<button class="btn" onclick="zoomIn(event)">
-			<i class="fa fa-plus" aria-hidden="true"></i>
-		</button>
-
-		<button class="btn" onclick="toggleFullScreen(document.body)">
-			<i class="fa fa-window-maximize" aria-hidden="true"></i>
-		</button>
-
-		<button class="btn" onclick="document.body.style.zoom += 0.1">
-			<i class="fa fa-minus" aria-hidden="true"></i>
-		</button>
-
-		
-	</div> -->
-
-	<div class="right-btn-container">
-		<button class="btn" onclick="routeToPage('stopWatch')">
-			<i class="fa fa-clock-o" aria-hidden="true"></i>
-		</button>
-		<!-- <button class="btn" onclick="routeToPage('listTeam')">
-			<i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp; List Teams
-		</button> -->
-
-		<button class="btn" onclick="routeToPage('settings')">
-			<i class="fa fa-cog" aria-hidden="true"></i>
-		</button>
-
-		<button class="btn" onclick="routeToPage('informationPage')">
-			<i class="fa fa-info-circle" aria-hidden="true"></i>
-		</button>
-	</div>
-
-	<!-- DISPLAY PAGE-->
-	<div id="StopWatchPage" class="container">
-		<p id="mode" class="mode">PREPARATION TIME</p>
-
-		<div id="pagar" class="timer">
-			<div id='disp'></div>
-			<div class="ms" id="dispMs"></div>
-		</div>
-
-		<div style="clear: both;"></div>
-
-		<div class="box-container">
-			<div class="box-team">
-				<p id="team_a_name" class="red-colored team-name"></p>
-				<!-- <div id="finA">
-				</div>
-				<p id="winTeamA"></p> -->
-			</div>
-
-			<div id="midText" class=""></div>
-
-			<div class="box-team">
-				<p id="team_b_name" class="blue-colored team-name"></p>
-				<!-- <p id="finB"></p>
-				<p id="winTeamB"></p> -->
-			</div>
-		</div>
-
-		<div class="laps-container">
-			<div id="aTimeLap" class="time-lap">
-			</div>
-			<div id="midLapNo" class="laps-no">
-			</div>
-			<div id="bTimeLap" class="time-lap">
-			</div>
-		</div>
-	</div>
-
-	<!-- <div id="ListTeamPage" class="container">
-		<div class="list-team-page">
-			<h2>List Teams</h2>
-			<div class="form-input">
-				<input type="text" id="input-red-team" placeholder="Red Team"> <b
-					style="font-size: 24px;color: orange;">VS</b>
-				<input type="text" id="input-blue-team" placeholder="Blue Team">
-				<button class="btn-add-team" onclick="storeTeams(null, 'ADD_TEAM')">
-					<i class="fa fa-plus-circle" aria-hidden="true"></i>
-				</button>
-			</div>
-			<div class="team-content">
-				<ul id="teams">
-					<li>TEAM A VS TEAM F</li>
-				</ul>
-			</div>
-		</div>
-	</div> -->
-
-	<!-- SETTINGS PAGE -->
-	<div id="settingPage" class="container">
-
-		<p class="page-title">
-			Setting
-		</p>
-
-
-		<div>
-			<label for="compNameInput">Competition Name</label>
-			<input class="form-input" type="text" id="compNameInput" placeholder="Competition Name">
-
-			<label for="race_duration">Race Duration (sec)</label>
-			<input class="form-input" type="number" id="race_duration" placeholder="seconds">
-
-			<label for="prep_time">Preparation Duration (sec)</label>
-			<input class="form-input" type="number" id="prep_time" placeholder="seconds">
-
-			<label for="a_team_input">A Team</label>
-			<input class="form-input" type="text" id="a_team_input" placeholder="Team Name">
-
-			<label for="b_team_input">B Team</label>
-			<input class="form-input" type="text" id="b_team_input" placeholder="Team Name">
-
-			<label for="midTextInput">Middle Text</label>
-			<input class="form-input" type="text" id="midTextInput" placeholder="Middle Text">
-
-			<label for="nLapInput">Number of Lap</label>
-			<input class="form-input" type="number" min="1" id="nLapInput" placeholder="Number of Lap">
-			<br>
-			<br>
-			<button class="btn" style="margin-right: 2rem; margin-top: 1rem; font-size: 2rem; background-color:rgba(0, 0, 0, 0.5); padding:6px 12px;"
-				onclick="
-					localStorage.setItem('krc_timer_setting', JSON.stringify(defaultSetting));
-					window.location.reload();
-				">
-				Reset to default
-			</button>
-			<button class="btn"
-				style="margin-top: 1rem; font-size: 2rem; background-color:rgba(0, 0, 0, 0.5); padding:6px 12px;"
-				onclick="setSettings()">Save</button>
-		</div>
-	</div>
-
-	<!-- DISPLAY PAGE-->
-	<div id="informationPage" class="container">
-		<p class="page-title">
-			Information
-		</p>
-
-
-		<div style="margin: 7rem 0em; font-size: 1rem;color:whitesmoke;font-family: 'digital-7';">
-			<p style="transform: scaleY(1.2); font-size: 1.2rem; font-family: 'cyberspace';">
-				Race Stopwatch App V 1.3
-			</p>
-			<p>Klub Pemrograman Jurusan Teknologi Informasi POLNES</p>
-			<p>2021</p>
-		</div>
-
-
-		<p>hotkeys:</p>
-
-		<div
-			style="margin: auto; width: 50%; font-family: 'digital-7'; color:whitesmoke; margin-bottom: 4rem; padding-top: 1rem;">
-			<table border="1">
-				<tr>
-					<td width="4%" style="padding: 10px; text-align: center;">No.</td>
-					<td width="20%">Key</td>
-					<td>Function</td>
-				</tr>
-				<tr>
-					<td width="4%" style="padding: 10px; text-align: center;">1.</td>
-					<td width="20%">Space</td>
-					<td>Start/pause Stopwatch</td>
-				</tr>
-				<tr>
-					<td width="4%" style="padding: 10px; text-align: center;">2.</td>
-					<td width="20%">r</td>
-					<td>Stopwatch Reset (pause first)</td>
-				</tr>
-				<tr>
-					<td width="4%" style="padding: 10px; text-align: center;">3.</td>
-					<td width="20%">a</td>
-					<td>Lap time for A team</td>
-				</tr>
-				<tr>
-					<td width="4%" style="padding: 10px; text-align: center;">4.</td>
-					<td width="20%">b</td>
-					<td>Lap time for B team</td>
-				</tr>
-				<tr>
-					<td width="4%" style="padding: 10px; text-align: center;">5.</td>
-					<td width="20%">o</td>
-					<td>Mute/unmute sound FX</td>
-				</tr>
-				<tr>
-					<td width="4%" style="padding: 10px; text-align: center;">6.</td>
-					<td width="20%">p</td>
-					<td>Mute/unmute background music</td>
-				</tr>
-				<tr>
-					<td width="4%" style="padding: 10px; text-align: center;">7.</td>
-					<td width="20%">F11</td>
-					<td>Fullscreen/Exit Fullscreen</td>
-				</tr>
-				<tr>
-					<td width="4%" style="padding: 10px; text-align: center;">8.</td>
-					<td width="20%">CTRL +</td>
-					<td>Zoom In</td>
-				</tr>
-				<tr>
-					<td width="4%" style="padding: 10px; text-align: center;">9.</td>
-					<td width="20%">CRTL -</td>
-					<td>Zoom Out</td>
-				</tr>
-			</table>
-
-
-
-		</div>
-
-
-	</div>
-
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 
-	<script src="assets/js/uuid.js"></script>
-	<!-- <script src="assets/js/app.js"></script> -->
-	<script src="assets/js/settingStorage.js"></script>
-	<script src="assets/js/pageTransition.js"></script>
-	<!-- <script src="assets/js/teamStorage.js"></script> -->
-	<script src="assets/js/stopwatch.js"></script>
-	<script>
+    <script src="assets/js/uuid.js"></script>
+    <!-- <script src="assets/js/app.js"></script> -->
+    <script src="assets/js/settingStorage.js"></script>
+    <script src="assets/js/pageTransition.js"></script>
+    <!-- <script src="assets/js/teamStorage.js"></script> -->
+    <script src="assets/js/stopwatch.js"></script>
+    <script>
 
-		toDisplayHtml(msToArrTime(prepDuration));
+        toDisplayHtml(msToArrTime(prepDuration));
 
-		//init page
+        //init page
 		routeToPage('stopWatch')
 		printAllLaps()
-	</script>
+    </script>
 </body>
+
+</html>
