@@ -1,7 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-// import './index.css'
-import App from "./App.tsx";
+import { BrowserRouter, Route, Routes } from "react-router";
+import Layout from "./layout";
+import Info from "./pages/info";
+import Settings from "./pages/settings";
+import Stopwatch from "./pages/stopwatch";
 
 const rootEl = document.getElementById("root");
 
@@ -11,6 +14,14 @@ if (!rootEl) {
 
 createRoot(rootEl).render(
     <StrictMode>
-        <App />
+        <BrowserRouter>
+            <Routes>
+                <Route element={<Layout />}>
+                    <Route path="/" element={<Stopwatch />} />
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/info" element={<Info />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
     </StrictMode>,
 );

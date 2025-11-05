@@ -1,41 +1,40 @@
 @font-face {
-	font-family: "cyberspace";
-	src: url("../font/cyberspace.otf") format("opentype");
+    font-family: "cyberspace";
+    src: url("../font/cyberspace.otf") format("opentype");
 }
 
 @font-face {
-	font-family: "digital-7";
-	src: url("../font/digital-7.ttf");
+    font-family: "digital-7";
+    src: url("../font/digital-7.ttf");
 }
 
 * {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .clear {
-	clear: both;
+    clear: both;
 }
 
 body {
-	background-color: black;
-	color: orange;
+    background-color: black;
+    color: orange;
 
-	text-align: center;
-	font-size: 10pt;
-	letter-spacing: 2pt;
-	font-family: "cyberspace";
+    text-align: center;
+    font-size: 10pt;
+    letter-spacing: 2pt;
+    font-family: "cyberspace";
 }
 
 #StopWatchPage {
-	padding: 0;
-	margin: 0;
-	overflow: hidden;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
     height: 100vh;
     /* flex-wrap: nowrap; */
 
-
-	/* display: none;
+    /* display: none;
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
@@ -43,99 +42,98 @@ body {
 }
 
 #settingPage {
-	display: none;
-	font-family: 'digital-7';
-	padding-top: 6em;
+    /* display: none; */
+    font-family: "digital-7";
+    padding-top: 6em;
 }
 
 .bg-image1 {
-	background: url(../img/bg1.jpg) repeat center center fixed;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	left: 0;
-	position: fixed;
-	z-index: -100;
+    background: url(../img/bg1.jpg) repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
+    z-index: -100;
 
-	/* opacity: 0.9; */
-	/* filter: alpha(opacity=50); */
-	display: none;
-
+    /* opacity: 0.9; */
+    /* filter: alpha(opacity=50); */
+    /* display: none; */
 }
 
 .bg-image2 {
-	background: url(../img/bg2.jpg) repeat center center fixed;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	left: 0;
-	position: fixed;
-	z-index: -100;
+    background: url(../img/bg2.jpg) repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
+    z-index: -100;
 
-	/* opacity: 0.9; */
-	/* filter: alpha(opacity=50); */
+    /* opacity: 0.9; */
+    /* filter: alpha(opacity=50); */
 
-	display: none;
+    /* display: none; */
 }
 
 .bg-image3 {
-	background: url(../img/bg3.jpg);
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	/* height: 100vh; */
-	top: 0;
-	bottom: 0;
-	right: 0;
-	left: 0;
-	position: fixed;
-	z-index: -100;
+    background: url(../img/bg3.jpg);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* height: 100vh; */
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
+    z-index: -100;
 
-	/* opacity: .9; */
-	/* filter: alpha(opacity=50); */
+    /* opacity: .9; */
+    /* filter: alpha(opacity=50); */
 
-	display: none;
+    /* display: none; */
 }
 
 .bg-image4 {
-	background: url(../img/bg4.jpg);
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	/* height: 100vh; */
-	top: 0;
-	bottom: 0;
-	right: 0;
-	left: 0;
-	position: fixed;
-	z-index: -100;
+    background: url(../img/bg4.jpg);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* height: 100vh; */
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
+    z-index: -100;
 
-	/* opacity: .9; */
-	/* filter: alpha(opacity=50); */
+    /* opacity: .9; */
+    /* filter: alpha(opacity=50); */
 
-	display: none;
+    /* display: none; */
 }
 
 .container {
-	padding-top: 4rem;
-	text-align: center;
-	/* padding-bottom: 5em; */
+    padding-top: 4rem;
+    text-align: center;
+    /* padding-bottom: 5em; */
 
-	display: none;
+    /* display: none; */
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
@@ -143,205 +141,200 @@ body {
 }
 
 .laps-container {
-	display: flex;
+    display: flex;
     align-items: flex-start;
     justify-content: space-evenly;
 }
 
 .laps {
-	text-decoration: lawngreen;
+    text-decoration: lawngreen;
 }
 
 .laps-no {
-	padding-top: 0.3rem;
-	font-size: 1.5rem;
-	transform: scaleY(1.2);
-	-webkit-transform: scaleY(1.2); /* Safari and Chrome */
-	-moz-transform: scaleY(1.2); /* Firefox */
-	-ms-transform: scaleY(1.2); /* IE 9+ */
-	-o-transform: scaleY(1.2); /* Opera */
+    padding-top: 0.3rem;
+    font-size: 1.5rem;
+    transform: scaleY(1.2);
+    -webkit-transform: scaleY(1.2); /* Safari and Chrome */
+    -moz-transform: scaleY(1.2); /* Firefox */
+    -ms-transform: scaleY(1.2); /* IE 9+ */
+    -o-transform: scaleY(1.2); /* Opera */
 }
 
 .laps-no > p {
-	padding-top: 1.1rem;
+    padding-top: 1.1rem;
 }
 
 .time-lap {
-	font-size: 4rem;
-	color: whitesmoke;
+    font-size: 4rem;
+    color: whitesmoke;
 
-	font-family: "digital-7";
+    font-family: "digital-7";
 }
 
-
-
-
 .timer {
-	font-family: "digital-7";
-	color: whitesmoke;
-	font-size: 14pt;
-	display: flex;
-	align-items: flex-end;
-	flex-direction: row;
-	align-content: flex-end;
-	justify-content: center;
-	flex-wrap: nowrap;
+    font-family: "digital-7";
+    color: whitesmoke;
+    font-size: 14pt;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row;
+    align-content: flex-end;
+    justify-content: center;
+    flex-wrap: nowrap;
 }
 
 #disp {
-	font-size: 10em;
-	width: 2.2em;
-	text-align: left;
+    font-size: 10em;
+    width: 2.2em;
+    text-align: left;
 }
 
 .ms {
-	font-size: 5em;
-	text-align: right;
-	width: 1em;
-	margin-bottom: 0.2em;
+    font-size: 5em;
+    text-align: right;
+    width: 1em;
+    margin-bottom: 0.2em;
 }
 
 .box-container {
-	margin: 1rem 0rem;
-	display: flex;
-	justify-content: space-evenly;
-	align-items: center;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	align-content: center;
+    margin: 1rem 0rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: center;
 }
 
 .box-team {
-	transform: scaleY(1.1);
-	-webkit-transform: scaleY(1.1); /* Safari and Chrome */
-	-moz-transform: scaleY(1.1); /* Firefox */
-	-ms-transform: scaleY(1.1); /* IE 9+ */
-	-o-transform: scaleY(1.1); /* Opera */
-	letter-spacing: 5pt;
+    transform: scaleY(1.1);
+    -webkit-transform: scaleY(1.1); /* Safari and Chrome */
+    -moz-transform: scaleY(1.1); /* Firefox */
+    -ms-transform: scaleY(1.1); /* IE 9+ */
+    -o-transform: scaleY(1.1); /* Opera */
+    letter-spacing: 5pt;
 }
 
 .red-colored {
-	color: red;
+    color: red;
 }
 
 .blue-colored {
-	color: blue;
+    color: blue;
 }
 
-
 .team-name {
-	font-size: 1.8em;
-	margin-bottom: 5px;
+    font-size: 1.8em;
+    margin-bottom: 5px;
 }
 
 .left-btn-container {
-	padding: 1em;
-	position: fixed;
-	/* right: 0.5; */
+    padding: 1em;
+    position: fixed;
+    /* right: 0.5; */
 }
 
 .right-btn-container {
-	padding: 1em;
+    padding: 1em;
 
-	position: fixed;
-	right: 0.5em;
+    position: fixed;
+    right: 0.5em;
 }
 
 .btn {
-	background-color: unset;
-	border: 0;
-	color: white;
-	text-decoration: none;
-	font-size: 1.2rem;
-	font-family: "digital-7";
-	cursor: pointer;
+    background-color: unset;
+    border: 0;
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-family: "digital-7";
+    cursor: pointer;
 }
 
 .btn:hover {
-	color: orange;
+    color: orange;
 }
 
 /* PAGE SHOW/HIDE */
 
 /* LIST PAGE */
 #ListTeamPage {
-	display: none;
+    display: none;
 }
 
 .list-team-page {
-	height: 100%;
+    height: 100%;
 }
 
 .list-team-page h2 {
-	font-size: 45px;
-	text-decoration: underline;
+    font-size: 45px;
+    text-decoration: underline;
 }
 
 .list-team-page .form-input {
-	margin-top: 50px;
+    margin-top: 50px;
 }
 
 .list-team-page .form-input input {
-	padding: 8px 10px;
-	font-size: 18px;
-	text-align: center;
+    padding: 8px 10px;
+    font-size: 18px;
+    text-align: center;
 }
 
 .list-team-page .form-input .btn-add-team {
-	background-color: rgba(0, 0, 0, 0.3);
-	color: white;
-	padding: 10px 16px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	font-family: "digital-7";
-	cursor: pointer;
-	margin-top: 20px;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: "digital-7";
+    cursor: pointer;
+    margin-top: 20px;
 }
 
 .list-team-page .team-content {
-	margin: 40px 0;
+    margin: 40px 0;
 }
 
 .team-content ul {
-	display: inline-block;
-	margin: 0 50px;
+    display: inline-block;
+    margin: 0 50px;
 }
 
 .team-content ul li {
-	list-style-type: none;
-	margin-top: 30px;
-	font-size: 40px;
-	height: 40px;
+    list-style-type: none;
+    margin-top: 30px;
+    font-size: 40px;
+    height: 40px;
 }
 
 .team-content ul li:hover {
-	
-	color: orange;
+    color: orange;
 }
 
 .page-title {
-	font-family: 'cyberspace';
-	font-size: 2rem;
-	padding-bottom: 2rem;
+    font-family: "cyberspace";
+    font-size: 2rem;
+    padding-bottom: 2rem;
 }
 
 label {
-	/* font-size: 23px; */
-	/* font-weight: bolder; */
-	display: block;
-	margin-bottom: 0.1rem;
-	margin-top: 1rem;
+    /* font-size: 23px; */
+    /* font-weight: bolder; */
+    display: block;
+    margin-bottom: 0.1rem;
+    margin-top: 1rem;
 }
 
 .form-input {
-	font-size: 1.2rem;
-	font-family: 'cyberspace';
+    font-size: 1.2rem;
+    font-family: "cyberspace";
 
-	/* width: 300px; */
-	/* height: 25px; */
-	text-align: center;
+    /* width: 300px; */
+    /* height: 25px; */
+    text-align: center;
 }
 /* 
 .settings .btn-save {
@@ -359,7 +352,7 @@ label {
 } */
 
 .btn-save:hover {
-	color: orange;
-	background-color: whitesmoke;
-	font-weight: bold;
+    color: orange;
+    background-color: whitesmoke;
+    font-weight: bold;
 }
