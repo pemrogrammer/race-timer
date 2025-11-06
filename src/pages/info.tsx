@@ -1,39 +1,18 @@
+import dayjs from "dayjs";
+import packageJson from "../../package.json";
+
 export default function Info() {
     return (
         <>
             <div className="bg-image4" id="bg-image4"></div>
 
-            <div id="informationPage" className="container">
+            <div className="container">
                 <p className="page-title">Information</p>
-
-                <div
-                    style={{
-                        // margin: 7rem 0em; font-size: 1rem;color:whitesmoke;font-family: 'digital-7';
-                        margin: "7rem 0em",
-                        fontSize: "1rem",
-                        color: "whitesmoke",
-                        fontFamily: "'digital-7'",
-                    }}
-                >
-                    <p
-                        style={{
-                            // "transform: scaleY(1.2); font-size: 1.2rem; font-family: 'cyberspace';"
-                            transform: "scaleY(1.2)",
-                            fontSize: "1.2rem",
-                            fontFamily: "'cyberspace'",
-                        }}
-                    >
-                        Race Stopwatch App V 1.3
-                    </p>
-                    <p>Klub Pemrograman Jurusan Teknologi Informasi POLNES</p>
-                    <p>2021</p>
-                </div>
 
                 <p>hotkeys:</p>
 
                 <div
                     style={{
-                        // "margin: auto; width: 50%; font-family: 'digital-7'; color:whitesmoke; margin-bottom: 4rem; padding-top: 1rem;"
                         margin: "auto",
                         width: "50%",
                         fontFamily: "'digital-7'",
@@ -111,11 +90,23 @@ export default function Info() {
                                 <td width="4%" style={TD_STYLE}>
                                     9.
                                 </td>
-                                <td width="20%">CRTL -</td>
+                                <td width="20%">CTRL -</td>
                                 <td>Zoom Out</td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <p>Race Stopwatch App v{packageJson.version}</p>
+
+                <div
+                    style={{
+                        color: "whitesmoke",
+                        fontFamily: "digital-7",
+                    }}
+                >
+                    <p>Klub Pemrograman TI POLNES</p>
+                    <p>{dayjs(packageJson.lastModified).format("YYYY")}</p>
                 </div>
             </div>
         </>
