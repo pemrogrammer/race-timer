@@ -1,3 +1,9 @@
+import {
+    faClock,
+    faCog,
+    faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NavLink, Outlet } from "react-router";
 import styles from "./layout.module.css";
 
@@ -6,15 +12,15 @@ export default function Layout() {
         <>
             <div className={styles.navContainer}>
                 <NavLink to="/" aria-label="stopwatch">
-                    <i className="fa fa-clock-o" />
+                    <FontAwesomeIcon icon={faClock} />
                 </NavLink>
 
                 <NavLink to="/settings" aria-label="settings">
-                    <i className="fa fa-cog"></i>
+                    <FontAwesomeIcon icon={faCog} />
                 </NavLink>
 
                 <NavLink to="/info" aria-label="info">
-                    <i className="fa fa-info-circle" />
+                    <FontAwesomeIcon icon={faInfoCircle} />
                 </NavLink>
             </div>
 
