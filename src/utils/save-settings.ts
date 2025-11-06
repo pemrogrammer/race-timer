@@ -21,6 +21,13 @@ export default function saveSettings(
         JSON.stringify({
             ...currentSettings,
             ...newSettings,
+            nLap: Number(newSettings.nLap ?? currentSettings.nLap),
+            race_duration: Number(
+                newSettings.race_duration ?? currentSettings.race_duration,
+            ),
+            prep_time: Number(
+                newSettings.prep_time ?? currentSettings.prep_time,
+            ),
         }),
     );
 }
