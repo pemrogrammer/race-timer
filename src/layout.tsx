@@ -1,20 +1,21 @@
-import { Outlet } from "react-router";
+import { NavLink, Outlet } from "react-router";
+import styles from "./layout.module.css";
 
 export default function Layout() {
     return (
         <>
-            <div className="right-btn-container">
-                <a href="/" className="btn" aria-label="stopwatch">
+            <div className={styles.navContainer}>
+                <NavLink to="/" aria-label="stopwatch">
                     <i className="fa fa-clock-o" />
-                </a>
+                </NavLink>
 
-                <a href="/settings" className="btn" aria-label="settings">
+                <NavLink to="/settings" aria-label="settings">
                     <i className="fa fa-cog"></i>
-                </a>
+                </NavLink>
 
-                <a href="/info" className="btn" aria-label="info">
+                <NavLink to="/info" aria-label="info">
                     <i className="fa fa-info-circle" />
-                </a>
+                </NavLink>
             </div>
 
             <Outlet />

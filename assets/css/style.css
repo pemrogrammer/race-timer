@@ -24,7 +24,22 @@ body {
     text-align: center;
     font-size: 10pt;
     letter-spacing: 2pt;
-    font-family: "cyberspace";
+    font-family: "cyberspace", sans-serif;
+}
+
+a,
+button {
+    color: whitesmoke;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    background-color: transparent;
+}
+
+a:hover,
+button:hover,
+a.active {
+    color: orange;
 }
 
 #StopWatchPage {
@@ -162,11 +177,11 @@ body {
     font-size: 4rem;
     color: whitesmoke;
 
-    font-family: "digital-7";
+    font-family: "digital-7", sans-serif;
 }
 
 .timer {
-    font-family: "digital-7";
+    font-family: "digital-7", sans-serif;
     color: whitesmoke;
     font-size: 14pt;
     display: flex;
@@ -222,131 +237,8 @@ body {
     margin-bottom: 5px;
 }
 
-.left-btn-container {
-    padding: 1em;
-    position: fixed;
-    /* right: 0.5; */
-}
-
-.right-btn-container {
-    padding: 1em;
-
-    position: fixed;
-    right: 0.5em;
-}
-
-.btn {
-    background-color: unset;
-    border: 0;
-    color: white;
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-family: "digital-7";
-    cursor: pointer;
-}
-
-.btn:hover {
-    color: orange;
-}
-
-/* PAGE SHOW/HIDE */
-
-/* LIST PAGE */
-#ListTeamPage {
-    display: none;
-}
-
-.list-team-page {
-    height: 100%;
-}
-
-.list-team-page h2 {
-    font-size: 45px;
-    text-decoration: underline;
-}
-
-.list-team-page .form-input {
-    margin-top: 50px;
-}
-
-.list-team-page .form-input input {
-    padding: 8px 10px;
-    font-size: 18px;
-    text-align: center;
-}
-
-.list-team-page .form-input .btn-add-team {
-    background-color: rgba(0, 0, 0, 0.3);
-    color: white;
-    padding: 10px 16px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-family: "digital-7";
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-.list-team-page .team-content {
-    margin: 40px 0;
-}
-
-.team-content ul {
-    display: inline-block;
-    margin: 0 50px;
-}
-
-.team-content ul li {
-    list-style-type: none;
-    margin-top: 30px;
-    font-size: 40px;
-    height: 40px;
-}
-
-.team-content ul li:hover {
-    color: orange;
-}
-
 .page-title {
-    font-family: "cyberspace";
+    font-family: "cyberspace", sans-serif;
     font-size: 2rem;
     padding-bottom: 2rem;
-}
-
-label {
-    /* font-size: 23px; */
-    /* font-weight: bolder; */
-    display: block;
-    margin-bottom: 0.1rem;
-    margin-top: 1rem;
-}
-
-.form-input {
-    font-size: 1.2rem;
-    font-family: "cyberspace";
-
-    /* width: 300px; */
-    /* height: 25px; */
-    text-align: center;
-}
-/* 
-.settings .btn-save {
-	background-color: rgba(0, 0, 0, 0.3);
-	border: 1px solid orange;
-	color: white;
-	padding: 16px 30px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 18px;
-	font-family: "digital-7";
-	cursor: pointer;
-	margin-top: 20px;
-} */
-
-.btn-save:hover {
-    color: orange;
-    background-color: whitesmoke;
-    font-weight: bold;
 }
