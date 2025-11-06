@@ -1,0 +1,8 @@
+.navContainer {
+    position: fixed;
+    right: 0;
+    padding: 1em;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+}

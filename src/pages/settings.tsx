@@ -5,6 +5,7 @@ import DEFAULT_SETTINGS from "../statics/default-settings";
 import SETTINGS_LS_KEY from "../statics/settings-ls-key";
 import getSettings from "../utils/get-settings";
 import saveSettings from "../utils/save-settings";
+import styles from "./settings.module.css";
 
 export default function Settings() {
     const [settings, setSettings] = useState<typeof DEFAULT_SETTINGS>();
@@ -17,18 +18,12 @@ export default function Settings() {
         <>
             <div className="bg-image4" id="bg-image4"></div>
 
-            <div
-                className="container"
-                style={{
-                    fontFamily: "digital-7",
-                }}
-            >
+            <div className="container">
                 <p className="page-title">Setting</p>
 
-                <div>
+                <div className={styles.form}>
                     <label htmlFor="compNameInput">Competition Name</label>
                     <input
-                        className="form-input"
                         type="text"
                         id="compNameInput"
                         placeholder="Competition Name"
@@ -37,7 +32,6 @@ export default function Settings() {
 
                     <label htmlFor="race_duration">Race Duration (sec)</label>
                     <input
-                        className="form-input"
                         type="number"
                         id="race_duration"
                         placeholder="seconds"
@@ -48,7 +42,6 @@ export default function Settings() {
                         Preparation Duration (sec)
                     </label>
                     <input
-                        className="form-input"
                         type="number"
                         id="prep_time"
                         placeholder="seconds"
@@ -57,7 +50,6 @@ export default function Settings() {
 
                     <label htmlFor="a_team_input">A Team</label>
                     <input
-                        className="form-input"
                         type="text"
                         id="a_team_input"
                         placeholder="Team Name"
@@ -66,7 +58,6 @@ export default function Settings() {
 
                     <label htmlFor="b_team_input">B Team</label>
                     <input
-                        className="form-input"
                         type="text"
                         id="b_team_input"
                         placeholder="Team Name"
@@ -75,7 +66,6 @@ export default function Settings() {
 
                     <label htmlFor="midTextInput">Middle Text</label>
                     <input
-                        className="form-input"
                         type="text"
                         id="midTextInput"
                         placeholder="Middle Text"
@@ -84,42 +74,22 @@ export default function Settings() {
 
                     <label htmlFor="nLapInput">Number of Lap</label>
                     <input
-                        className="form-input"
                         type="number"
                         min="1"
                         id="nLapInput"
                         placeholder="Number of Lap"
                         defaultValue={settings?.nLap}
                     />
-                    <br />
-                    <br />
-                    <button
-                        type="button"
-                        className="btn"
-                        style={{
-                            marginRight: "2rem",
-                            marginTop: "1rem",
-                            fontSize: "2rem",
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
-                            padding: "6px 12px",
-                        }}
-                        onClick={handleReset}
-                    >
-                        Reset to default
-                    </button>
-                    <button
-                        type="button"
-                        className="btn"
-                        style={{
-                            marginTop: "1rem",
-                            fontSize: "2rem",
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
-                            padding: "6px 12px",
-                        }}
-                        onClick={handleSave}
-                    >
-                        Save
-                    </button>
+
+                    <div className={styles.buttonContainer}>
+                        <button type="button" onClick={handleReset}>
+                            Reset to default
+                        </button>
+
+                        <button type="button" onClick={handleSave}>
+                            Save
+                        </button>
+                    </div>
                 </div>
             </div>
         </>
