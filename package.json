@@ -2,6 +2,7 @@
     "name": "stopwatch",
     "private": true,
     "version": "2.0.0",
+    "lastModified": "2025-11-06",
     "type": "module",
     "scripts": {
         "dev": "vite",
@@ -10,6 +11,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "dayjs": "^1.11.19",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
         "react-router": "^7.9.5"
