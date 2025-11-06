@@ -16,7 +16,7 @@ export default function Settings() {
 
     return (
         <>
-            <div className="bg-image4" id="bg-image4"></div>
+            <div className="bg img4"></div>
 
             <div className="container">
                 <p className="page-title">Setting</p>
