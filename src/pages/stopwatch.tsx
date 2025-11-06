@@ -2,6 +2,13 @@
 
 import { useEffect, useState } from "react";
 import type DEFAULT_SETTINGS from "../statics/default-settings";
+import {
+    checkPressedKey,
+    init,
+    msToArrTime,
+    printAllLaps,
+    toDisplayHtml,
+} from "../utils/core.js";
 import getSettings from "../utils/get-settings";
 import styles from "./stopwatch.module.css";
 
@@ -9,7 +16,20 @@ export default function Stopwatch() {
     const [settings, setSettings] = useState<typeof DEFAULT_SETTINGS>();
 
     useEffect(() => {
-        setSettings(getSettings());
+        init();
+        const settings = getSettings();
+
+        setSettings(settings);
+
+        toDisplayHtml(msToArrTime(settings.prep_time * 1000));
+
+        printAllLaps();
+
+        document.addEventListener("keydown", checkPressedKey);
+
+        return () => {
+            document.removeEventListener("keydown", checkPressedKey);
+        };
     }, []);
 
     return (
@@ -18,29 +38,49 @@ export default function Stopwatch() {
                 src="assets/sound/main-theme.mp3"
                 id="mainThemeAudio"
                 preload="auto"
-            />
+            >
+                <track kind="captions" />
+            </audio>
+
             <audio
                 src="assets/sound/applause.mp3"
                 id="applauseAudio"
                 preload="auto"
-            />
-            <audio src="assets/sound/prepare.mp3" id="prepare" preload="auto" />
+            >
+                <track kind="captions" />
+            </audio>
+
+            <audio src="assets/sound/prepare.mp3" id="prepare" preload="auto">
+                <track kind="captions" />
+            </audio>
+
             <audio
                 src="assets/sound/smb_stage_clear.wav"
                 id="raceEndAudio"
                 preload="auto"
-            />
+            >
+                <track kind="captions" />
+            </audio>
+
             <audio
                 src="assets/sound/smb_1-up.wav"
                 id="checkpointSound"
                 preload="auto"
-            />
-            <audio src="assets/sound/start.mp3" id="start" preload="auto" />
+            >
+                <track kind="captions" />
+            </audio>
+
+            <audio src="assets/sound/start.mp3" id="start" preload="auto">
+                <track kind="captions" />
+            </audio>
+
             <audio
                 src="assets/sound/times_up.mp3"
                 id="timesUpAudio"
                 preload="auto"
-            />
+            >
+                <track kind="captions" />
+            </audio>
 
             <div className="bg img2"></div>
 
@@ -48,8 +88,11 @@ export default function Stopwatch() {
                 <p id="mode">PREPARATION TIME</p>
 
                 <div className={styles.timer}>
-                    <div id="disp" className={styles.bigNumber}></div>
-                    <div id="dispMs" className={styles.smallNumber}></div>
+                    <div id="timeDisplay" className={styles.bigNumber}></div>
+                    <div
+                        id="timeDisplayMs"
+                        className={styles.smallNumber}
+                    ></div>
                 </div>
 
                 <div
