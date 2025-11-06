@@ -41,12 +41,6 @@ body {
     align-content: center; */
 }
 
-#settingPage {
-    /* display: none; */
-    font-family: "digital-7";
-    padding-top: 6em;
-}
-
 .bg-image1 {
     background: url(../img/bg1.jpg) repeat center center fixed;
     -webkit-background-size: cover;
