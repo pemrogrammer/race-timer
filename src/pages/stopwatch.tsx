@@ -1,4 +1,16 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import type DEFAULT_SETTINGS from "../statics/default-settings";
+import getSettings from "../utils/get-settings";
+
 export default function Stopwatch() {
+    const [settings, setSettings] = useState<typeof DEFAULT_SETTINGS>();
+
+    useEffect(() => {
+        setSettings(getSettings());
+    }, []);
+
     return (
         <>
             <audio
@@ -31,7 +43,6 @@ export default function Stopwatch() {
 
             <div className="bg-image2" id="bg-image2"></div>
 
-            {/* <!-- DISPLAY PAGE--> */}
             <div id="StopWatchPage" className="container">
                 <p id="mode" className="mode">
                     PREPARATION TIME
@@ -50,19 +61,19 @@ export default function Stopwatch() {
 
                 <div className="box-container">
                     <div className="box-team">
-                        <p
-                            id="team_a_name"
-                            className="red-colored team-name"
-                        ></p>
+                        <p className="red-colored team-name">
+                            {settings?.team_a_name}
+                        </p>
                     </div>
 
-                    <div id="midText" className=""></div>
+                    <div id="midText" className="">
+                        {settings?.midText}
+                    </div>
 
                     <div className="box-team">
-                        <p
-                            id="team_b_name"
-                            className="blue-colored team-name"
-                        ></p>
+                        <p className="blue-colored team-name">
+                            {settings?.team_b_name}
+                        </p>
                     </div>
                 </div>
 
