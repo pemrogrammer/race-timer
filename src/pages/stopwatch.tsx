@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type DEFAULT_SETTINGS from "../statics/default-settings";
 import getSettings from "../utils/get-settings";
+import styles from "./stopwatch.module.css";
 
 export default function Stopwatch() {
     const [settings, setSettings] = useState<typeof DEFAULT_SETTINGS>();
@@ -41,16 +42,14 @@ export default function Stopwatch() {
                 preload="auto"
             />
 
-            <div className="bg-image2" id="bg-image2"></div>
+            <div className="bg img2"></div>
 
-            <div id="StopWatchPage" className="container">
-                <p id="mode" className="mode">
-                    PREPARATION TIME
-                </p>
+            <div className={[styles.container, "container"].join(" ")}>
+                <p id="mode">PREPARATION TIME</p>
 
-                <div id="pagar" className="timer">
-                    <div id="disp"></div>
-                    <div className="ms" id="dispMs"></div>
+                <div className={styles.timer}>
+                    <div id="disp" className={styles.bigNumber}></div>
+                    <div id="dispMs" className={styles.smallNumber}></div>
                 </div>
 
                 <div
@@ -59,28 +58,34 @@ export default function Stopwatch() {
                     }}
                 ></div>
 
-                <div className="box-container">
-                    <div className="box-team">
-                        <p className="red-colored team-name">
+                <div className={styles.boxContainer}>
+                    <div className={styles.boxTeam}>
+                        <p
+                            className={[styles.teamName, styles.redColor].join(
+                                " ",
+                            )}
+                        >
                             {settings?.team_a_name}
                         </p>
                     </div>
 
-                    <div id="midText" className="">
-                        {settings?.midText}
-                    </div>
+                    <div id="midText">{settings?.midText}</div>
 
-                    <div className="box-team">
-                        <p className="blue-colored team-name">
+                    <div className={styles.boxTeam}>
+                        <p
+                            className={[styles.teamName, styles.blueColor].join(
+                                " ",
+                            )}
+                        >
                             {settings?.team_b_name}
                         </p>
                     </div>
                 </div>
 
-                <div className="laps-container">
-                    <div id="aTimeLap" className="time-lap"></div>
+                <div className={styles.lapsContainer}>
+                    <div id="aTimeLap"></div>
                     <div id="midLapNo" className="laps-no"></div>
-                    <div id="bTimeLap" className="time-lap"></div>
+                    <div id="bTimeLap"></div>
                 </div>
             </div>
         </>
