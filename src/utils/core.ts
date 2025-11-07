@@ -1,9 +1,11 @@
 import type DEFAULT_SETTINGS from "../statics/default-settings";
 import getSettings from "./get-settings";
 
-// global dynamic var list
+/**
+ * idle is the state when stopwatch is transitioning from "preparation" to "race" (countdown song playing)
+ */
 let isIdle: boolean;
-let isTimerStart: boolean;
+let isTimerRunning: boolean;
 let isRaceBegin: boolean;
 let isPrepBegin: boolean;
 let isAFinished: boolean;
@@ -34,6 +36,7 @@ let theInterval: number;
  * @example prepDuration = 5*1000 // = 5 detik
  */
 let prepDuration: number;
+
 /**
  * waktu hitung maju di-set di sini dalam mili-detik
  *
@@ -65,11 +68,11 @@ export function init() {
     sfx = {
         checkpoint: checkpoint as HTMLAudioElement,
         raceEndAudio: raceEndAudio as HTMLAudioElement,
-        timesUpAudio: raceEndAudio as HTMLAudioElement,
-        prepare: raceEndAudio as HTMLAudioElement,
-        start: raceEndAudio as HTMLAudioElement,
-        mainThemeAudio: raceEndAudio as HTMLAudioElement,
-        applauseAudio: raceEndAudio as HTMLAudioElement,
+        timesUpAudio: timesUpAudio as HTMLAudioElement,
+        prepare: prepare as HTMLAudioElement,
+        start: start as HTMLAudioElement,
+        mainThemeAudio: mainThemeAudio as HTMLAudioElement,
+        applauseAudio: applauseAudio as HTMLAudioElement,
     };
 
     setting = getSettings();
@@ -100,7 +103,7 @@ const toggleSfx = (isMuted: boolean) => {
 
 const initVarState = () => {
     isIdle = false;
-    isTimerStart = false;
+    isTimerRunning = false;
     isRaceBegin = false;
     isPrepBegin = false;
 
@@ -116,13 +119,11 @@ const initVarState = () => {
     };
 };
 
+/**
+ * @see ASCII codes https://www.theasciicode.com.ar/
+ */
 export function checkPressedKey(e: KeyboardEvent) {
-    // Debug untuk memastikan keyCode yang ditekan pada keyboard.
-    // console.log(e.keyCode);
-
     switch (e.keyCode) {
-        // Key map, untuk mengeset key masukan kode ascii nya.
-        //info kode ascii lihat di sini http://www.theasciicode.com.ar/
         case 65: //65 = a => untuk TIM A
             if (!isAFinished && isRaceBegin) {
                 checkpointTeam("a");
@@ -136,15 +137,14 @@ export function checkPressedKey(e: KeyboardEvent) {
             break;
 
         case 32: // == Spasi
-            if (!isTimerStart) {
-                isTimerStart = true;
+            if (!isTimerRunning) {
+                isTimerRunning = true;
 
                 if (isRaceBegin) {
                     sfx.mainThemeAudio.play();
 
-                    console.log("race");
-                    //resume race
                     const beginTime = Date.now() - (elapsedTime ?? 0);
+
                     theInterval = setInterval(
                         () => raceInterval(beginTime),
                         10,
@@ -152,25 +152,29 @@ export function checkPressedKey(e: KeyboardEvent) {
                 } else if (isPrepBegin) {
                     sfx.mainThemeAudio.play();
 
-                    console.log("prep");
-
-                    // resume prep
-                    const limitTime = Date.now() + (remainTime ?? 0);
+                    const preparationTimeShouldFinishOn =
+                        Date.now() + (remainTime ?? 0);
 
                     theInterval = setInterval(
-                        () => prepInterval(limitTime),
+                        () => prepInterval(preparationTimeShouldFinishOn),
                         10,
                     );
                 } else {
-                    console.log("begin");
+                    isPrepBegin = true;
 
-                    // start from beginning
-                    startPrepTime();
+                    sfx.mainThemeAudio.play();
+
+                    const preparationTimeShouldFinishOn =
+                        Date.now() + prepDuration;
+
+                    theInterval = setInterval(
+                        () => prepInterval(preparationTimeShouldFinishOn),
+                        10,
+                    );
                 }
             } else {
-                // pause()
                 if (!isIdle) {
-                    isTimerStart = false;
+                    isTimerRunning = false;
                     clearInterval(theInterval);
                     sfx.mainThemeAudio.pause();
                 }
@@ -190,8 +194,7 @@ export function checkPressedKey(e: KeyboardEvent) {
             break;
 
         case 82: //82 = R
-            // reset()
-            if (!isIdle && !isTimerStart) {
+            if (!isIdle && !isTimerRunning) {
                 sfx.mainThemeAudio.pause();
                 sfx.mainThemeAudio.currentTime = 0;
 
@@ -261,16 +264,6 @@ const prepInterval = (limitTime: number) => {
     }
 };
 
-const startPrepTime = () => {
-    isPrepBegin = true;
-    sfx.mainThemeAudio.volume = 0.8;
-
-    sfx.mainThemeAudio.play();
-    const limit = Date.now() + prepDuration;
-
-    theInterval = setInterval(() => prepInterval(limit), 10);
-};
-
 const raceInterval = (beginTime: number) => {
     const nowTime = Date.now();
     elapsedTime = nowTime - beginTime;
@@ -282,7 +275,7 @@ const raceInterval = (beginTime: number) => {
         sfx.mainThemeAudio.pause();
         toDisplayHtml(msToArrTime(raceDuration));
         clearInterval(theInterval);
-        isTimerStart = false;
+        isTimerRunning = false;
     }
 };
 
@@ -330,7 +323,7 @@ const teamReachFinish = (teamName: "a" | "b") => {
         sfx.applauseAudio.pause();
         sfx.raceEndAudio.play();
         clearInterval(theInterval);
-        isTimerStart = false;
+        isTimerRunning = false;
     }
 };
 
