@@ -1,0 +1,18 @@
+.table {
+    margin: auto;
+    width: 50%;
+    font-family: digital-7, sans-serif;
+    color: whitesmoke;
+    margin-bottom: 4rem;
+    margin-top: 1rem;
+}
+
+.table td {
+    padding: 10px;
+    text-align: center;
+}
+
+.copyright {
+    color: whitesmoke;
+    font-family: digital-7, sans-serif;
+}
