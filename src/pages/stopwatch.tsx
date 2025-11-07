@@ -3,13 +3,7 @@
 import { useEffect, useState } from "react";
 import Audios from "../components/audios.js";
 import type DEFAULT_SETTINGS from "../statics/default-settings";
-import {
-    checkPressedKey,
-    init,
-    msToArrTime,
-    printAllLaps,
-    toDisplayHtml,
-} from "../utils/core.js";
+import { checkPressedKey, init } from "../utils/core.js";
 import getSettings from "../utils/get-settings";
 import styles from "./stopwatch.module.css";
 
@@ -18,13 +12,8 @@ export default function Stopwatch() {
 
     useEffect(() => {
         init();
-        const settings = getSettings();
 
-        setSettings(settings);
-
-        toDisplayHtml(msToArrTime(settings.prep_time * 1000));
-
-        printAllLaps();
+        setSettings(getSettings());
 
         document.addEventListener("keydown", checkPressedKey);
 
@@ -42,8 +31,8 @@ export default function Stopwatch() {
             <p id="mode">PREPARATION TIME</p>
 
             <div className={styles.timer}>
-                <div id="timeDisplay" className={styles.bigNumber}></div>
-                <div id="timeDisplayMs" className={styles.smallNumber}></div>
+                <div className={styles.bigNumber} id="timeDisplay"></div>
+                <div className={styles.smallNumber} id="timeDisplayMs"></div>
             </div>
 
             <div
@@ -73,9 +62,9 @@ export default function Stopwatch() {
             </div>
 
             <div className={styles.lapsContainer}>
-                <div id="aTimeLap" className={styles.timeLap}></div>
-                <div id="midLapNo" className={styles.midLapNo}></div>
-                <div id="bTimeLap" className={styles.timeLap}></div>
+                <div className={styles.timeLap} id="aTimeLap"></div>
+                <div className={styles.midLapNo} id="midLapNo"></div>
+                <div className={styles.timeLap} id="bTimeLap"></div>
             </div>
 
             <Audios />

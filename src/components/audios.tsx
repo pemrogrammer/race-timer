@@ -1,39 +1,63 @@
-import applauseAudio from "../assets/sounds/applause.mp3";
-import mainThemeAudio from "../assets/sounds/main-theme.mp3";
-import prepareAudio from "../assets/sounds/prepare.mp3";
-import checkpointAudio from "../assets/sounds/smb_1-up.wav";
-import raceEndAudio from "../assets/sounds/smb_stage_clear.wav";
-import startAudio from "../assets/sounds/start.mp3";
-import timesUpAudio from "../assets/sounds/times_up.mp3";
+import { useEffect, useRef } from "react";
+import applause from "../assets/sounds/applause.mp3";
+import bgm from "../assets/sounds/main-theme.mp3";
+import readySet from "../assets/sounds/prepare.mp3";
+import checkpoint from "../assets/sounds/smb_1-up.wav";
+import finished from "../assets/sounds/smb_stage_clear.wav";
+import go from "../assets/sounds/start.mp3";
+import timesUp from "../assets/sounds/times_up.mp3";
+import { init } from "../utils/sound-controller";
 
 export default function Audios() {
+    const applauseElement = useRef<HTMLAudioElement>(null);
+    const bgmElement = useRef<HTMLAudioElement>(null);
+    const checkpointElement = useRef<HTMLAudioElement>(null);
+    const finishedElement = useRef<HTMLAudioElement>(null);
+    const goElement = useRef<HTMLAudioElement>(null);
+    const readySetElement = useRef<HTMLAudioElement>(null);
+    const timesUpElement = useRef<HTMLAudioElement>(null);
+
+    useEffect(() => {
+        init({
+            bgm: bgmElement,
+            soundEffects: {
+                applause: applauseElement,
+                checkpoint: checkpointElement,
+                finished: finishedElement,
+                go: goElement,
+                readySet: readySetElement,
+                timesUp: timesUpElement,
+            },
+        });
+    }, []);
+
     return (
         <>
-            <audio src={mainThemeAudio} id="mainThemeAudio" preload="auto">
+            <audio preload="auto" ref={applauseElement} src={applause}>
                 <track kind="captions" />
             </audio>
 
-            <audio src={applauseAudio} id="applauseAudio" preload="auto">
+            <audio preload="auto" ref={bgmElement} src={bgm}>
                 <track kind="captions" />
             </audio>
 
-            <audio src={prepareAudio} id="prepare" preload="auto">
+            <audio preload="auto" ref={checkpointElement} src={checkpoint}>
                 <track kind="captions" />
             </audio>
 
-            <audio src={raceEndAudio} id="raceEndAudio" preload="auto">
+            <audio preload="auto" ref={finishedElement} src={finished}>
                 <track kind="captions" />
             </audio>
 
-            <audio src={checkpointAudio} id="checkpointSound" preload="auto">
+            <audio preload="auto" ref={goElement} src={go}>
                 <track kind="captions" />
             </audio>
 
-            <audio src={startAudio} id="start" preload="auto">
+            <audio preload="auto" ref={readySetElement} src={readySet}>
                 <track kind="captions" />
             </audio>
 
-            <audio src={timesUpAudio} id="timesUpAudio" preload="auto">
+            <audio preload="auto" ref={timesUpElement} src={timesUp}>
                 <track kind="captions" />
             </audio>
         </>
