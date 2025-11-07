@@ -1,11 +1,11 @@
 @font-face {
     font-family: "cyberspace";
-    src: url("../font/cyberspace.otf") format("opentype");
+    src: url("./assets/fonts/cyberspace.otf") format("opentype");
 }
 
 @font-face {
     font-family: "digital-7";
-    src: url("../font/digital-7.ttf");
+    src: url("./assets/fonts/digital-7.ttf");
 }
 
 * {
@@ -43,11 +43,11 @@ a.active {
 }
 
 .img2 {
-    background: url(../img/bg2.jpg);
+    background: url(./assets/images/bg2.jpg);
 }
 
 .img4 {
-    background: url(../img/bg4.jpg);
+    background: url(./assets/images/bg4.jpg);
 }
 
 .bg {

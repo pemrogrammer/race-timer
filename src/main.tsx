@@ -5,7 +5,7 @@ import Layout from "./layout";
 import Info from "./pages/info";
 import Settings from "./pages/settings";
 import Stopwatch from "./pages/stopwatch";
-import "../assets/css/style.css";
+import "./main.css";
 
 const rootEl = document.getElementById("root");
 
