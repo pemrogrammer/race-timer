@@ -44,6 +44,13 @@ let prepDuration: number;
  */
 let raceDuration: number;
 
+/**
+ * Initialize stopwatch state and load audio elements
+ *
+ * This function must be called before calling any other stopwatch functions
+ *
+ * @throws {Error} if any of the audio elements are not found
+ */
 export function init() {
     const checkpoint = document.getElementById("checkpointSound");
     const raceEndAudio = document.getElementById("raceEndAudio");
@@ -81,26 +88,41 @@ export function init() {
     raceDuration = setting.race_duration * 1000;
 
     initVarState();
-    toggleSfx(!setting.isSfxEnabled);
-    toggleBgm(!setting.isBgmEnabled);
+
+    toggleSfx(setting.isSfxEnabled);
+    toggleBgm(setting.isBgmEnabled);
+
     sfx.applauseAudio.volume = 0.5;
     sfx.mainThemeAudio.loop = true;
 }
 
-//fungsi untuk muted suara audio
-const toggleBgm = (isMuted: boolean) => {
-    sfx.mainThemeAudio.muted = isMuted;
+/**
+ * Toggle background music on/off
+ *
+ * @param {boolean} isEnable - whether to enable background music or not
+ */
+const toggleBgm = (isEnable: boolean) => {
+    sfx.mainThemeAudio.muted = !isEnable;
 };
 
-const toggleSfx = (isMuted: boolean) => {
-    sfx.checkpoint.muted = isMuted;
-    sfx.raceEndAudio.muted = isMuted;
-    sfx.timesUpAudio.muted = isMuted;
-    sfx.start.muted = isMuted;
-    sfx.applauseAudio.muted = isMuted;
-    sfx.prepare.muted = isMuted;
+/**
+ * Toggle SFX (sound effects) on/off
+ *
+ * @param {boolean} isEnable - whether to enable SFX or not
+ */
+const toggleSfx = (isEnable: boolean) => {
+    sfx.checkpoint.muted = !isEnable;
+    sfx.raceEndAudio.muted = !isEnable;
+    sfx.timesUpAudio.muted = !isEnable;
+    sfx.start.muted = !isEnable;
+    sfx.applauseAudio.muted = !isEnable;
+    sfx.prepare.muted = !isEnable;
 };
 
+/**
+ * Initializes all state variables to their default values.
+ * This function is called at the beginning of the program to reset all state variables.
+ */
 const initVarState = () => {
     isIdle = false;
     isTimerRunning = false;
@@ -120,7 +142,17 @@ const initVarState = () => {
 };
 
 /**
- * @see ASCII codes https://www.theasciicode.com.ar/
+ * Checks whether a key is pressed and takes the corresponding action.
+ *
+ * If the space-bar key is pressed, it will start the timer if it is not already running.
+ * If the "a" key is pressed, it will save the current lap time to team A.
+ * If the "b" key is pressed, it will save the current lap time to team B.
+ * If the "o" key is pressed, it will toggle the sound effects on/off.
+ * If the "p" key is pressed, it will toggle the background music on/off.
+ * If the "r" key is pressed, it will reset the timer and clear all state variables.
+ *
+ * @param {KeyboardEvent} e - the event object passed when a key is pressed.
+ * @see https://www.theasciicode.com.ar/ for the list of key codes
  */
 export function checkPressedKey(e: KeyboardEvent) {
     switch (e.keyCode) {
@@ -207,6 +239,18 @@ export function checkPressedKey(e: KeyboardEvent) {
     }
 }
 
+/**
+ * printAllLaps
+ *
+ * Print all laps to the display.
+ *
+ * Will print the lap number, team A time, and team B time.
+ *
+ * If a team doesn't have a time for a lap, it will print "--:--".
+ *
+ * If a team has a faster time than the other team, it will print "<" or ">"
+ * before the lap number.
+ */
 export const printAllLaps = () => {
     const aTimeLap = document.getElementById("aTimeLap");
     const midLapNo = document.getElementById("midLapNo");
@@ -251,6 +295,17 @@ export const printAllLaps = () => {
     }
 };
 
+/**
+ * Prep interval function.
+ *
+ * This function will be called every 10 ms.
+ * It will calculate the remaining time for the preparation phase
+ * and display it on the screen.
+ * If the remaining time is less than or equal to 0, it will clear the interval
+ * and call the raceStart function.
+ *
+ * @param {number} limitTime - The time at which the preparation phase should end.
+ */
 const prepInterval = (limitTime: number) => {
     const now = Date.now();
     remainTime = limitTime - now;
@@ -264,6 +319,19 @@ const prepInterval = (limitTime: number) => {
     }
 };
 
+/**
+ * Interval function for the race phase.
+ *
+ * This function will be called every 10 ms.
+ * It will calculate the elapsed time for the race phase
+ * and display it on the screen.
+ * If the elapsed time is greater than or equal to the race duration,
+ * it will play the times up audio, pause the main theme audio,
+ * display the race duration on the screen, clear the interval,
+ * and set isTimerRunning to false.
+ *
+ * @param {number} beginTime - The time at which the race phase started.
+ */
 const raceInterval = (beginTime: number) => {
     const nowTime = Date.now();
     elapsedTime = nowTime - beginTime;
@@ -279,6 +347,17 @@ const raceInterval = (beginTime: number) => {
     }
 };
 
+/**
+ * Function to start the race phase.
+ *
+ * This function will set isIdle to true, clear the mode element,
+ * pause the main theme audio, play the prepare audio,
+ * wait for 6989 ms (the duration of the prepare audio),
+ * play the start audio, set the main theme audio to the beginning,
+ * set the main theme audio volume to 0.4, play the main theme audio,
+ * set isIdle to false, set isRaceBegin to true, get the current time,
+ * and start the race interval.
+ */
 const raceStart = () => {
     isIdle = true;
 
@@ -306,6 +385,10 @@ const raceStart = () => {
     }, 6989); //6989ms adalah durasi dari musik prepare
 };
 
+/**
+ * Set to true when the race phase has finished, and set to true the B team has finished.
+ * @param {teamName} teamName - The team name.
+ */
 const teamReachFinish = (teamName: "a" | "b") => {
     sfx.applauseAudio.play();
 
@@ -327,6 +410,12 @@ const teamReachFinish = (teamName: "a" | "b") => {
     }
 };
 
+/**
+ * Play the checkpoint audio and save the current lap time to the specified team.
+ * If the team has finished all laps, call teamReachFinish.
+ * @param {teamName} teamName - The team name.
+ * @throws {Error} If elapsedTime is undefined.
+ */
 const checkpointTeam = (teamName: "a" | "b") => {
     sfx.checkpoint.pause();
     sfx.checkpoint.currentTime = 0;
@@ -342,7 +431,12 @@ const checkpointTeam = (teamName: "a" | "b") => {
     }
 };
 
-//for displaying main timer
+/**
+ * Updates the HTML elements with the given formatted time.
+ *
+ * @param {string[]} formattedTime - An array of three strings containing the minutes, seconds, and milliseconds respectively.
+ * @throws {Error} If the HTML elements with the IDs "timeDisplay" and "timeDisplayMs" are not found.
+ */
 export const toDisplayHtml = (formattedTime: string[]) => {
     const dispEl = document.getElementById("timeDisplay");
     const displayMs = document.getElementById("timeDisplayMs");
@@ -354,7 +448,10 @@ export const toDisplayHtml = (formattedTime: string[]) => {
 };
 
 /**
- * formatting from number ms to [min, sec, ms]
+ * Converts a given time in milliseconds to an array of three strings containing the minutes, seconds, and milliseconds respectively.
+ * The minutes and seconds are formatted to have two digits with leading zeros if necessary, while the milliseconds are formatted to have two digits without leading zeros.
+ * @param {number} nMs - The time in milliseconds.
+ * @returns {string[]} An array of three strings containing the minutes, seconds, and milliseconds respectively.
  */
 export const msToArrTime = (nMs: number) => {
     /**
