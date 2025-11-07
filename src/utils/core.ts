@@ -1,15 +1,16 @@
-import type DEFAULT_SETTINGS from "../statics/default-settings";
 import getSettings from "./get-settings";
+import {
+    pauseBgm,
+    playBgm,
+    playSfx,
+    resumeBgm,
+    toggleBgm,
+    toggleSfx,
+} from "./sound-controller";
 
-/**
- * idle is the state when stopwatch is transitioning from "preparation" to "race" (countdown song playing)
- */
-let isIdle: boolean;
 let isTimerRunning: boolean;
-let isRaceBegin: boolean;
-let isPrepBegin: boolean;
-let isAFinished: boolean;
-let isBFinished: boolean;
+
+let timerState: "init" | "preparation" | "idle" | "race" | "finish";
 
 let remainTime: number | undefined;
 let elapsedTime: number | undefined;
@@ -18,31 +19,21 @@ let teamTimes: {
     b: number[];
 };
 
-let sfx: {
-    checkpoint: HTMLAudioElement;
-    raceEndAudio: HTMLAudioElement;
-    timesUpAudio: HTMLAudioElement;
-    prepare: HTMLAudioElement;
-    start: HTMLAudioElement;
-    mainThemeAudio: HTMLAudioElement;
-    applauseAudio: HTMLAudioElement;
-};
-let setting: typeof DEFAULT_SETTINGS;
 let theInterval: number;
 
 /**
  * waktu hitung mundur di-set di sini dalam mili-detik
  *
- * @example prepDuration = 5*1000 // = 5 detik
+ * @example prepDurationMs = 5*1000 // = 5 detik
  */
-let prepDuration: number;
+let prepDurationMs: number;
 
 /**
  * waktu hitung maju di-set di sini dalam mili-detik
  *
- * @example raceDuration = 5*1000 // = 5 detik
+ * @example raceDurationMs = 5*1000 // = 5 detik
  */
-let raceDuration: number;
+let raceDurationMs: number;
 
 /**
  * Initialize stopwatch state and load audio elements
@@ -52,85 +43,22 @@ let raceDuration: number;
  * @throws {Error} if any of the audio elements are not found
  */
 export function init() {
-    const checkpoint = document.getElementById("checkpointSound");
-    const raceEndAudio = document.getElementById("raceEndAudio");
-    const timesUpAudio = document.getElementById("timesUpAudio");
-    const prepare = document.getElementById("prepare");
-    const start = document.getElementById("start");
-    const mainThemeAudio = document.getElementById("mainThemeAudio");
-    const applauseAudio = document.getElementById("applauseAudio");
-
-    if (
-        !checkpoint ||
-        !raceEndAudio ||
-        !timesUpAudio ||
-        !prepare ||
-        !start ||
-        !mainThemeAudio ||
-        !applauseAudio
-    ) {
-        throw new Error("audio element not found");
-    }
-
-    sfx = {
-        checkpoint: checkpoint as HTMLAudioElement,
-        raceEndAudio: raceEndAudio as HTMLAudioElement,
-        timesUpAudio: timesUpAudio as HTMLAudioElement,
-        prepare: prepare as HTMLAudioElement,
-        start: start as HTMLAudioElement,
-        mainThemeAudio: mainThemeAudio as HTMLAudioElement,
-        applauseAudio: applauseAudio as HTMLAudioElement,
-    };
-
-    setting = getSettings();
-
-    prepDuration = setting.prep_time * 1000;
-    raceDuration = setting.race_duration * 1000;
-
     initVarState();
 
-    toggleSfx(setting.isSfxEnabled);
-    toggleBgm(setting.isBgmEnabled);
+    const { prep_time, race_duration } = getSettings();
+    prepDurationMs = prep_time * 1000;
+    raceDurationMs = race_duration * 1000;
 
-    sfx.applauseAudio.volume = 0.5;
-    sfx.mainThemeAudio.loop = true;
+    toDisplayHtml(msToArrTime(prepDurationMs));
+    printAllLaps();
 }
-
-/**
- * Toggle background music on/off
- *
- * @param {boolean} isEnable - whether to enable background music or not
- */
-const toggleBgm = (isEnable: boolean) => {
-    sfx.mainThemeAudio.muted = !isEnable;
-};
-
-/**
- * Toggle SFX (sound effects) on/off
- *
- * @param {boolean} isEnable - whether to enable SFX or not
- */
-const toggleSfx = (isEnable: boolean) => {
-    sfx.checkpoint.muted = !isEnable;
-    sfx.raceEndAudio.muted = !isEnable;
-    sfx.timesUpAudio.muted = !isEnable;
-    sfx.start.muted = !isEnable;
-    sfx.applauseAudio.muted = !isEnable;
-    sfx.prepare.muted = !isEnable;
-};
 
 /**
  * Initializes all state variables to their default values.
  * This function is called at the beginning of the program to reset all state variables.
  */
 const initVarState = () => {
-    isIdle = false;
     isTimerRunning = false;
-    isRaceBegin = false;
-    isPrepBegin = false;
-
-    isAFinished = false;
-    isBFinished = false;
 
     remainTime = undefined;
     elapsedTime = undefined;
@@ -139,6 +67,8 @@ const initVarState = () => {
         a: [],
         b: [],
     };
+
+    timerState = "init";
 };
 
 /**
@@ -155,89 +85,155 @@ const initVarState = () => {
  * @see https://www.theasciicode.com.ar/ for the list of key codes
  */
 export function checkPressedKey(e: KeyboardEvent) {
+    if (timerState === "idle") return; // can not press key when idle
+
     switch (e.keyCode) {
         case 65: //65 = a => untuk TIM A
-            if (!isAFinished && isRaceBegin) {
-                checkpointTeam("a");
-            }
+            checkpointTeam("a");
             break;
 
         case 66: // b => untuk TIM B
-            if (!isBFinished && isRaceBegin) {
-                checkpointTeam("b");
-            }
+            checkpointTeam("b");
             break;
 
         case 32: // == Spasi
-            if (!isTimerRunning) {
-                isTimerRunning = true;
-
-                if (isRaceBegin) {
-                    sfx.mainThemeAudio.play();
-
-                    const beginTime = Date.now() - (elapsedTime ?? 0);
-
-                    theInterval = setInterval(
-                        () => raceInterval(beginTime),
-                        10,
-                    );
-                } else if (isPrepBegin) {
-                    sfx.mainThemeAudio.play();
-
-                    const preparationTimeShouldFinishOn =
-                        Date.now() + (remainTime ?? 0);
-
-                    theInterval = setInterval(
-                        () => prepInterval(preparationTimeShouldFinishOn),
-                        10,
-                    );
-                } else {
-                    isPrepBegin = true;
-
-                    sfx.mainThemeAudio.play();
-
-                    const preparationTimeShouldFinishOn =
-                        Date.now() + prepDuration;
-
-                    theInterval = setInterval(
-                        () => prepInterval(preparationTimeShouldFinishOn),
-                        10,
-                    );
-                }
-            } else {
-                if (!isIdle) {
-                    isTimerRunning = false;
-                    clearInterval(theInterval);
-                    sfx.mainThemeAudio.pause();
-                }
-            }
+            handleSpacePressed();
             break;
 
         case 79: // == o
-            setting.isSfxEnabled = !setting.isSfxEnabled;
-            toggleSfx(!setting.isSfxEnabled);
-            localStorage.setItem("krc_timer_setting", JSON.stringify(setting));
+            toggleSfx();
             break;
 
         case 80: // == p
-            setting.isBgmEnabled = !setting.isBgmEnabled;
-            toggleBgm(!setting.isBgmEnabled);
-            localStorage.setItem("krc_timer_setting", JSON.stringify(setting));
+            toggleBgm();
             break;
 
-        case 82: //82 = R
-            if (!isIdle && !isTimerRunning) {
-                sfx.mainThemeAudio.pause();
-                sfx.mainThemeAudio.currentTime = 0;
-
-                clearInterval(theInterval);
-                initVarState();
-                toDisplayHtml(msToArrTime(prepDuration));
-                printAllLaps();
-                break;
-            }
+        case 82: //82 = R = reset
+            resetTimer();
+            break;
     }
 }
+
+const handleSpacePressed = (): void => {
+    if (timerState === "finish") return;
+
+    if (isTimerRunning) {
+        pauseTimer();
+
+        return;
+    }
+
+    isTimerRunning = true;
+
+    if (timerState === "race") {
+        resumeRace();
+        return;
+    }
+
+    if (timerState === "preparation") {
+        resumePreparation();
+        return;
+    }
+
+    if (timerState !== "init") {
+        throw new Error("Invalid timer state");
+    }
+
+    startPreparation();
+};
+
+const startPreparation = () => {
+    if (timerState !== "init") return;
+
+    playBgm();
+    timerState = "preparation";
+
+    const preparationTimeShouldFinishOn = Date.now() + prepDurationMs;
+
+    theInterval = setInterval(
+        () => prepInterval(preparationTimeShouldFinishOn),
+        10,
+    );
+};
+
+const resumePreparation = () => {
+    if (timerState !== "preparation") return;
+
+    resumeBgm();
+    const preparationTimeShouldFinishOn = Date.now() + (remainTime ?? 0);
+
+    theInterval = setInterval(
+        () => prepInterval(preparationTimeShouldFinishOn),
+        10,
+    );
+};
+
+/**
+ * Function to start the race phase.
+ *
+ * This function will set isIdle to true, clear the mode element,
+ * pause the main theme audio, play the prepare audio,
+ * wait for 6989 ms (the duration of the prepare audio),
+ * play the start audio, set the main theme audio to the beginning,
+ * set the main theme audio volume to 0.4, play the main theme audio,
+ * set isIdle to false, set isRaceBegin to true, get the current time,
+ * and start the race interval.
+ */
+const startRace = () => {
+    if (timerState !== "preparation") return;
+
+    timerState = "idle";
+
+    const modeEl = document.getElementById("mode");
+
+    if (!modeEl) throw new Error("mode element not found");
+
+    modeEl.innerHTML = "";
+
+    pauseBgm();
+    playSfx("readySet");
+
+    /**
+     * ready-set is the duration of the prepare audio
+     */
+    const readySetSfxDuration = 6989; // milliseconds
+
+    setTimeout(() => {
+        playSfx("go");
+        playBgm();
+
+        timerState = "race";
+        const beginTime = Date.now();
+
+        theInterval = setInterval(() => raceInterval(beginTime), 10);
+    }, readySetSfxDuration);
+};
+
+const resumeRace = () => {
+    if (timerState !== "race") return;
+
+    const beginTime = Date.now() - (elapsedTime ?? 0);
+
+    theInterval = setInterval(() => raceInterval(beginTime), 10);
+    resumeBgm();
+};
+
+const pauseTimer = () => {
+    isTimerRunning = false;
+    clearInterval(theInterval);
+    pauseBgm();
+};
+
+const resetTimer = () => {
+    if (isTimerRunning) return; // cannot reset when timer is running
+
+    pauseBgm();
+
+    clearInterval(theInterval);
+    initVarState();
+    toDisplayHtml(msToArrTime(prepDurationMs));
+    printAllLaps();
+};
 
 /**
  * printAllLaps
@@ -251,7 +247,7 @@ export function checkPressedKey(e: KeyboardEvent) {
  * If a team has a faster time than the other team, it will print "<" or ">"
  * before the lap number.
  */
-export const printAllLaps = () => {
+const printAllLaps = () => {
     const aTimeLap = document.getElementById("aTimeLap");
     const midLapNo = document.getElementById("midLapNo");
     const bTimeLap = document.getElementById("bTimeLap");
@@ -264,7 +260,7 @@ export const printAllLaps = () => {
     midLapNo.innerHTML = "";
     bTimeLap.innerHTML = "";
 
-    for (let i = 0; i < setting.nLap; i++) {
+    for (let i = 0; i < getSettings().nLap; i++) {
         if (!teamTimes.a[i] && !teamTimes.b[i]) {
             midLapNo.innerHTML += `<p>${i + 1}</p>`;
         } else if (teamTimes.a[i] && !teamTimes.b[i]) {
@@ -302,7 +298,7 @@ export const printAllLaps = () => {
  * It will calculate the remaining time for the preparation phase
  * and display it on the screen.
  * If the remaining time is less than or equal to 0, it will clear the interval
- * and call the raceStart function.
+ * and call the startRace function.
  *
  * @param {number} limitTime - The time at which the preparation phase should end.
  */
@@ -315,7 +311,7 @@ const prepInterval = (limitTime: number) => {
     if (remainTime <= 0) {
         toDisplayHtml(["00", "00", "00"]);
         clearInterval(theInterval);
-        raceStart();
+        startRace();
     }
 };
 
@@ -338,75 +334,34 @@ const raceInterval = (beginTime: number) => {
 
     toDisplayHtml(msToArrTime(elapsedTime));
 
-    if (elapsedTime >= raceDuration) {
-        sfx.timesUpAudio.play();
-        sfx.mainThemeAudio.pause();
-        toDisplayHtml(msToArrTime(raceDuration));
+    if (elapsedTime >= raceDurationMs) {
+        playSfx("timesUp");
+        pauseBgm();
+
+        toDisplayHtml(msToArrTime(raceDurationMs));
         clearInterval(theInterval);
         isTimerRunning = false;
+        timerState = "finish";
     }
 };
 
 /**
- * Function to start the race phase.
- *
- * This function will set isIdle to true, clear the mode element,
- * pause the main theme audio, play the prepare audio,
- * wait for 6989 ms (the duration of the prepare audio),
- * play the start audio, set the main theme audio to the beginning,
- * set the main theme audio volume to 0.4, play the main theme audio,
- * set isIdle to false, set isRaceBegin to true, get the current time,
- * and start the race interval.
+ * Function to check if both teams have reached the finish line.
  */
-const raceStart = () => {
-    isIdle = true;
+const teamReachFinish = () => {
+    playSfx("applause");
 
-    const modeEl = document.getElementById("mode");
+    const { nLap } = getSettings();
 
-    if (!modeEl) throw new Error("mode element not found");
+    const isBothFinished =
+        teamTimes.a.length === nLap && teamTimes.b.length === nLap;
 
-    modeEl.innerHTML = "";
-
-    sfx.mainThemeAudio.pause();
-    sfx.prepare.play();
-
-    setTimeout(() => {
-        sfx.start.play();
-        sfx.mainThemeAudio.currentTime = 0;
-        sfx.mainThemeAudio.volume = 0.4;
-        sfx.mainThemeAudio.play();
-        isIdle = false;
-
-        isRaceBegin = true;
-        const beginTime = Date.now();
-
-        //looping sampai elapsedTime >= raceDuration
-        theInterval = setInterval(() => raceInterval(beginTime), 10);
-    }, 6989); //6989ms adalah durasi dari musik prepare
-};
-
-/**
- * Set to true when the race phase has finished, and set to true the B team has finished.
- * @param {teamName} teamName - The team name.
- */
-const teamReachFinish = (teamName: "a" | "b") => {
-    sfx.applauseAudio.play();
-
-    switch (teamName) {
-        case "a":
-            isAFinished = true;
-            break;
-        case "b":
-            isBFinished = true;
-            break;
-    }
-
-    if (isAFinished && isBFinished) {
-        sfx.mainThemeAudio.pause();
-        sfx.applauseAudio.pause();
-        sfx.raceEndAudio.play();
+    if (isBothFinished) {
+        pauseBgm();
+        playSfx("finished");
         clearInterval(theInterval);
         isTimerRunning = false;
+        timerState = "finish";
     }
 };
 
@@ -416,18 +371,24 @@ const teamReachFinish = (teamName: "a" | "b") => {
  * @param {teamName} teamName - The team name.
  * @throws {Error} If elapsedTime is undefined.
  */
-const checkpointTeam = (teamName: "a" | "b") => {
-    sfx.checkpoint.pause();
-    sfx.checkpoint.currentTime = 0;
-    sfx.checkpoint.play();
+const checkpointTeam = (teamName: "a" | "b"): void => {
+    if (
+        teamTimes[teamName].length === getSettings().nLap ||
+        timerState !== "race" ||
+        !isTimerRunning
+    ) {
+        return;
+    }
+
+    playSfx("checkpoint");
 
     if (elapsedTime === undefined) throw new Error("elapsedTime is undefined");
 
     teamTimes[teamName].push(elapsedTime);
     printAllLaps();
 
-    if (teamTimes[teamName].length === setting.nLap) {
-        teamReachFinish(teamName);
+    if (teamTimes[teamName].length === getSettings().nLap) {
+        teamReachFinish();
     }
 };
 
@@ -437,7 +398,7 @@ const checkpointTeam = (teamName: "a" | "b") => {
  * @param {string[]} formattedTime - An array of three strings containing the minutes, seconds, and milliseconds respectively.
  * @throws {Error} If the HTML elements with the IDs "timeDisplay" and "timeDisplayMs" are not found.
  */
-export const toDisplayHtml = (formattedTime: string[]) => {
+const toDisplayHtml = (formattedTime: string[]) => {
     const dispEl = document.getElementById("timeDisplay");
     const displayMs = document.getElementById("timeDisplayMs");
 
@@ -453,7 +414,7 @@ export const toDisplayHtml = (formattedTime: string[]) => {
  * @param {number} nMs - The time in milliseconds.
  * @returns {string[]} An array of three strings containing the minutes, seconds, and milliseconds respectively.
  */
-export const msToArrTime = (nMs: number) => {
+const msToArrTime = (nMs: number): string[] => {
     /**
      * fungsi ini untuk menambahkan "0" pada angka yang di bawah 10
      */
