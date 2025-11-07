@@ -68,7 +68,6 @@ a.active {
 }
 
 .container {
-    padding-top: 4rem;
     text-align: center;
     flex-direction: column;
     justify-content: center;
@@ -79,5 +78,5 @@ a.active {
 .page-title {
     font-family: "cyberspace", sans-serif;
     font-size: 2rem;
-    padding-bottom: 2rem;
+    margin-bottom: 2rem;
 }
