@@ -35,7 +35,9 @@ export default function Stopwatch() {
 
     return (
         <div
-            className={[styles.container, "container", "bg", "img2"].join(" ")}
+            className={[styles.pageContainer, "container", "bg", "img2"].join(
+                " ",
+            )}
         >
             <p id="mode">PREPARATION TIME</p>
 
