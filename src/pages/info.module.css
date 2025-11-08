@@ -1,10 +1,10 @@
 .table {
-    margin: auto;
     width: 50%;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 4rem;
     font-family: digital-7, sans-serif;
     color: whitesmoke;
-    margin-bottom: 4rem;
-    margin-top: 1rem;
 }
 
 .table td {
@@ -13,6 +13,6 @@
 }
 
 .copyright {
-    color: whitesmoke;
     font-family: digital-7, sans-serif;
+    color: whitesmoke;
 }

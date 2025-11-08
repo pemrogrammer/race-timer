@@ -9,8 +9,8 @@
 }
 
 * {
-    margin: 0;
     padding: 0;
+    margin: 0;
 }
 
 .clear {
@@ -18,21 +18,21 @@
 }
 
 body {
-    background-color: black;
+    font-family: "cyberspace", sans-serif;
+    font-size: 10pt;
     color: orange;
 
     text-align: center;
-    font-size: 10pt;
     letter-spacing: 2pt;
-    font-family: "cyberspace", sans-serif;
+    background-color: black;
 }
 
 a,
 button {
+    font-size: 1.2rem;
     color: whitesmoke;
     text-decoration: none;
     cursor: pointer;
-    font-size: 1.2rem;
     background-color: transparent;
 }
 
@@ -51,32 +51,32 @@ a.active {
 }
 
 .bg {
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    position: fixed;
+
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -100;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center center;
-
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    position: fixed;
-    z-index: -100;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
 }
 
 .container {
-    text-align: center;
     flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
     align-content: center;
+    align-items: stretch;
+    justify-content: center;
+    text-align: center;
 }
 
 .page-title {
+    margin-bottom: 2rem;
     font-family: "cyberspace", sans-serif;
     font-size: 2rem;
-    margin-bottom: 2rem;
 }

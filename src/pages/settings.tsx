@@ -21,67 +21,67 @@ export default function Settings() {
             <div className={styles.form}>
                 <label htmlFor="compNameInput">Competition Name</label>
                 <input
-                    type="text"
+                    defaultValue={settings?.compName}
                     id="compNameInput"
                     placeholder="Competition Name"
-                    defaultValue={settings?.compName}
+                    type="text"
                 />
 
                 <label htmlFor="race_duration">Race Duration (sec)</label>
                 <input
-                    type="number"
+                    defaultValue={settings?.race_duration}
                     id="race_duration"
                     placeholder="seconds"
-                    defaultValue={settings?.race_duration}
+                    type="number"
                 />
 
                 <label htmlFor="prep_time">Preparation Duration (sec)</label>
                 <input
-                    type="number"
+                    defaultValue={settings?.prep_time}
                     id="prep_time"
                     placeholder="seconds"
-                    defaultValue={settings?.prep_time}
+                    type="number"
                 />
 
                 <label htmlFor="a_team_input">A Team</label>
                 <input
-                    type="text"
+                    defaultValue={settings?.team_a_name}
                     id="a_team_input"
                     placeholder="Team Name"
-                    defaultValue={settings?.team_a_name}
+                    type="text"
                 />
 
                 <label htmlFor="b_team_input">B Team</label>
                 <input
-                    type="text"
+                    defaultValue={settings?.team_b_name}
                     id="b_team_input"
                     placeholder="Team Name"
-                    defaultValue={settings?.team_b_name}
+                    type="text"
                 />
 
                 <label htmlFor="midTextInput">Middle Text</label>
                 <input
-                    type="text"
+                    defaultValue={settings?.midText}
                     id="midTextInput"
                     placeholder="Middle Text"
-                    defaultValue={settings?.midText}
+                    type="text"
                 />
 
                 <label htmlFor="nLapInput">Number of Lap</label>
                 <input
-                    type="number"
-                    min="1"
-                    id="nLapInput"
-                    placeholder="Number of Lap"
                     defaultValue={settings?.nLap}
+                    id="nLapInput"
+                    min="1"
+                    placeholder="Number of Lap"
+                    type="number"
                 />
 
                 <div className={styles.buttonContainer}>
-                    <button type="button" onClick={handleReset}>
+                    <button onClick={handleReset} type="button">
                         Reset to default
                     </button>
 
-                    <button type="button" onClick={handleSave}>
+                    <button onClick={handleSave} type="button">
                         Save
                     </button>
                 </div>
@@ -116,12 +116,12 @@ const handleSave = () => {
 
     const newSettings = {
         compName: compNameInput.value,
-        race_duration: Number(race_duration.value),
+        midText: midTextInput.value,
+        nLap: Number(nLapInput.value),
         prep_time: Number(prep_time.value),
+        race_duration: Number(race_duration.value),
         team_a_name: a_team_input.value,
         team_b_name: b_team_input.value,
-        nLap: Number(nLapInput.value),
-        midText: midTextInput.value,
     };
 
     saveSettings(newSettings);

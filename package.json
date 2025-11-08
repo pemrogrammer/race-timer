@@ -1,16 +1,4 @@
 {
-    "name": "stopwatch",
-    "private": true,
-    "version": "2.0.0",
-    "lastModified": "2025-11-06",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc -b && vite build",
-        "lint": "biome check",
-        "lint:fix": "biome check --write",
-        "preview": "vite preview"
-    },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^7.1.0",
         "@fortawesome/free-solid-svg-icons": "^7.1.0",
@@ -30,5 +18,17 @@
         "globals": "^16.5.0",
         "typescript": "~5.9.3",
         "vite": "^7.2.1"
-    }
+    },
+    "lastModified": "2025-11-06",
+    "name": "stopwatch",
+    "private": true,
+    "scripts": {
+        "build": "tsc -b && vite build",
+        "dev": "vite",
+        "lint": "biome check",
+        "lint:fix": "biome check --write",
+        "preview": "vite preview"
+    },
+    "type": "module",
+    "version": "2.0.0"
 }
