@@ -1,19 +1,35 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import Audios from "../components/audios.js";
-import type DEFAULT_SETTINGS from "../statics/default-settings";
 import { checkPressedKey, init } from "../utils/core.js";
-import getSettings from "../utils/get-settings";
 import styles from "./stopwatch.module.css";
 
 export default function Stopwatch() {
-    const [settings, setSettings] = useState<typeof DEFAULT_SETTINGS>();
+    const mainCounterRef = useRef<HTMLDivElement>(null);
+    const sideCounterRef = useRef<HTMLDivElement>(null);
+    const midTextRef = useRef<HTMLDivElement>(null);
+    const aRecordRef = useRef<HTMLDivElement>(null);
+    const bRecordRef = useRef<HTMLDivElement>(null);
+    const lapNoRef = useRef<HTMLDivElement>(null);
+    const aNameRef = useRef<HTMLDivElement>(null);
+    const bNameRef = useRef<HTMLDivElement>(null);
+    const topTextRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        init();
-
-        setSettings(getSettings());
+        init({
+            elementRefs: {
+                aName: aNameRef,
+                aRecord: aRecordRef,
+                bName: bNameRef,
+                bRecord: bRecordRef,
+                lapNo: lapNoRef,
+                mainCounter: mainCounterRef,
+                midText: midTextRef,
+                sideCounter: sideCounterRef,
+                topText: topTextRef,
+            },
+        });
 
         document.addEventListener("keydown", checkPressedKey);
 
@@ -28,11 +44,11 @@ export default function Stopwatch() {
                 " ",
             )}
         >
-            <p id="mode">PREPARATION TIME</p>
+            <p ref={topTextRef} />
 
             <div className={styles.timer}>
-                <div className={styles.bigNumber} id="timeDisplay"></div>
-                <div className={styles.smallNumber} id="timeDisplayMs"></div>
+                <div className={styles.bigNumber} ref={mainCounterRef}></div>
+                <div className={styles.smallNumber} ref={sideCounterRef}></div>
             </div>
 
             <div
@@ -43,28 +59,28 @@ export default function Stopwatch() {
 
             <div className={styles.boxContainer}>
                 <div className={styles.boxTeam}>
-                    <p className={[styles.teamName, styles.redColor].join(" ")}>
-                        {settings?.team_a_name}
-                    </p>
+                    <p
+                        className={[styles.teamName, styles.redColor].join(" ")}
+                        ref={aNameRef}
+                    />
                 </div>
 
-                <div id="midText">{settings?.midText}</div>
+                <div ref={midTextRef} />
 
                 <div className={styles.boxTeam}>
                     <p
                         className={[styles.teamName, styles.blueColor].join(
                             " ",
                         )}
-                    >
-                        {settings?.team_b_name}
-                    </p>
+                        ref={bNameRef}
+                    />
                 </div>
             </div>
 
             <div className={styles.lapsContainer}>
-                <div className={styles.timeLap} id="aTimeLap"></div>
-                <div className={styles.midLapNo} id="midLapNo"></div>
-                <div className={styles.timeLap} id="bTimeLap"></div>
+                <div className={styles.timeLap} ref={aRecordRef} />
+                <div className={styles.midLapNo} ref={lapNoRef} />
+                <div className={styles.timeLap} ref={bRecordRef} />
             </div>
 
             <Audios />
