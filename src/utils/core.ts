@@ -1,3 +1,4 @@
+import type { RefObject } from "react";
 import getSettings from "./get-settings";
 import {
     pauseBgm,
@@ -22,27 +23,36 @@ let teamTimes: {
 let theInterval: number;
 
 /**
- * waktu hitung mundur di-set di sini dalam mili-detik
- *
- * @example prepDurationMs = 5*1000 // = 5 detik
+ * Desired preparation time in milliseconds
  */
 let prepDurationMs: number;
 
 /**
- * waktu hitung maju di-set di sini dalam mili-detik
- *
- * @example raceDurationMs = 5*1000 // = 5 detik
+ * Desired race time in milliseconds
  */
 let raceDurationMs: number;
 
+let _elementRefs: {
+    aName: RefObject<HTMLDivElement>;
+    aRecord: RefObject<HTMLDivElement>;
+    bName: RefObject<HTMLDivElement>;
+    bRecord: RefObject<HTMLDivElement>;
+    lapNo: RefObject<HTMLDivElement>;
+    mainCounter: RefObject<HTMLDivElement>;
+    midText: RefObject<HTMLDivElement>;
+    sideCounter: RefObject<HTMLDivElement>;
+    topText: RefObject<HTMLDivElement>;
+};
+
+type ElementRefsParam = {
+    [key in keyof typeof _elementRefs]: RefObject<HTMLDivElement | null>;
+};
+
 /**
- * Initialize stopwatch state and load audio elements
- *
- * This function must be called before calling any other stopwatch functions
- *
- * @throws {Error} if any of the audio elements are not found
+ * Initialize stopwatch state and elements
  */
-export function init() {
+export function init({ elementRefs }: { elementRefs: ElementRefsParam }) {
+    initElements(elementRefs);
     initVarState();
 
     const { prep_time, race_duration } = getSettings();
@@ -53,9 +63,52 @@ export function init() {
     printAllLaps();
 }
 
+const initElements = ({
+    aName,
+    aRecord,
+    bName,
+    bRecord,
+    lapNo,
+    mainCounter,
+    midText,
+    sideCounter,
+    topText,
+}: ElementRefsParam) => {
+    if (
+        !aName.current ||
+        !aRecord.current ||
+        !bName.current ||
+        !bRecord.current ||
+        !lapNo.current ||
+        !mainCounter.current ||
+        !midText.current ||
+        !sideCounter.current ||
+        !topText.current
+    ) {
+        throw new Error("elementRefs not found");
+    }
+
+    const settings = getSettings();
+
+    midText.current.innerHTML = settings.midText;
+    aName.current.innerHTML = settings.team_a_name;
+    bName.current.innerHTML = settings.team_b_name;
+
+    _elementRefs = {
+        aName: aName as RefObject<HTMLDivElement>,
+        aRecord: aRecord as RefObject<HTMLDivElement>,
+        bName: bName as RefObject<HTMLDivElement>,
+        bRecord: bRecord as RefObject<HTMLDivElement>,
+        lapNo: lapNo as RefObject<HTMLDivElement>,
+        mainCounter: mainCounter as RefObject<HTMLDivElement>,
+        midText: midText as RefObject<HTMLDivElement>,
+        sideCounter: sideCounter as RefObject<HTMLDivElement>,
+        topText: topText as RefObject<HTMLDivElement>,
+    };
+};
+
 /**
  * Initializes all state variables to their default values.
- * This function is called at the beginning of the program to reset all state variables.
  */
 const initVarState = () => {
     isTimerRunning = false;
@@ -69,19 +122,12 @@ const initVarState = () => {
     };
 
     timerState = "init";
+    _elementRefs.topText.current.innerHTML = "PREPARATION TIME";
 };
 
 /**
  * Checks whether a key is pressed and takes the corresponding action.
  *
- * If the space-bar key is pressed, it will start the timer if it is not already running.
- * If the "a" key is pressed, it will save the current lap time to team A.
- * If the "b" key is pressed, it will save the current lap time to team B.
- * If the "o" key is pressed, it will toggle the sound effects on/off.
- * If the "p" key is pressed, it will toggle the background music on/off.
- * If the "r" key is pressed, it will reset the timer and clear all state variables.
- *
- * @param {KeyboardEvent} e - the event object passed when a key is pressed.
  * @see https://www.theasciicode.com.ar/ for the list of key codes
  */
 export function checkPressedKey(e: KeyboardEvent) {
@@ -170,25 +216,13 @@ const resumePreparation = () => {
 
 /**
  * Function to start the race phase.
- *
- * This function will set isIdle to true, clear the mode element,
- * pause the main theme audio, play the prepare audio,
- * wait for 6989 ms (the duration of the prepare audio),
- * play the start audio, set the main theme audio to the beginning,
- * set the main theme audio volume to 0.4, play the main theme audio,
- * set isIdle to false, set isRaceBegin to true, get the current time,
- * and start the race interval.
  */
 const startRace = () => {
     if (timerState !== "preparation") return;
 
     timerState = "idle";
 
-    const modeEl = document.getElementById("mode");
-
-    if (!modeEl) throw new Error("mode element not found");
-
-    modeEl.innerHTML = "";
+    _elementRefs.topText.current.innerHTML = "";
 
     pauseBgm();
     playSfx("readySet");
@@ -228,7 +262,6 @@ const resetTimer = () => {
     if (isTimerRunning) return; // cannot reset when timer is running
 
     pauseBgm();
-
     clearInterval(theInterval);
     initVarState();
     toDisplayHtml(msToArrTime(prepDurationMs));
@@ -236,71 +269,48 @@ const resetTimer = () => {
 };
 
 /**
- * printAllLaps
- *
- * Print all laps to the display.
- *
- * Will print the lap number, team A time, and team B time.
- *
- * If a team doesn't have a time for a lap, it will print "--:--".
- *
- * If a team has a faster time than the other team, it will print "<" or ">"
- * before the lap number.
+ * Renders all recorded lap times for both teams into the designated DOM elements.
  */
 const printAllLaps = () => {
-    const aTimeLap = document.getElementById("aTimeLap");
-    const midLapNo = document.getElementById("midLapNo");
-    const bTimeLap = document.getElementById("bTimeLap");
+    const { aRecord, bRecord, lapNo } = _elementRefs;
 
-    if (!aTimeLap || !midLapNo || !bTimeLap) {
-        throw new Error("display element not found");
-    }
-
-    aTimeLap.innerHTML = "";
-    midLapNo.innerHTML = "";
-    bTimeLap.innerHTML = "";
+    aRecord.current.innerHTML = "";
+    lapNo.current.innerHTML = "";
+    bRecord.current.innerHTML = "";
 
     for (let i = 0; i < getSettings().nLap; i++) {
         if (!teamTimes.a[i] && !teamTimes.b[i]) {
-            midLapNo.innerHTML += `<p>${i + 1}</p>`;
+            lapNo.current.innerHTML += `<p>${i + 1}</p>`;
         } else if (teamTimes.a[i] && !teamTimes.b[i]) {
-            midLapNo.innerHTML += `<p>&lt;&lt; ${i + 1}</p>`;
+            lapNo.current.innerHTML += `<p>&lt;&lt; ${i + 1}</p>`;
         } else if (!teamTimes.a[i] && teamTimes.b[i]) {
-            midLapNo.innerHTML += `<p>${i + 1} &gt;&gt;</p>`;
+            lapNo.current.innerHTML += `<p>${i + 1} &gt;&gt;</p>`;
         } else {
             if (teamTimes.a[i] < teamTimes.b[i]) {
-                midLapNo.innerHTML += `<p>&lt;&lt; ${i + 1}</p>`;
+                lapNo.current.innerHTML += `<p>&lt;&lt; ${i + 1}</p>`;
             } else {
-                midLapNo.innerHTML += `<p>${i + 1} &gt;&gt;</p>`;
+                lapNo.current.innerHTML += `<p>${i + 1} &gt;&gt;</p>`;
             }
         }
 
         if (teamTimes.a[i]) {
             const aTime = msToArrTime(teamTimes.a[i]);
-            aTimeLap.innerHTML += `<p>${aTime[0]}:${aTime[1]} ${aTime[2]} </p>`;
+            aRecord.current.innerHTML += `<p>${aTime[0]}:${aTime[1]} ${aTime[2]} </p>`;
         } else {
-            aTimeLap.innerHTML += "<p>--:--</p>";
+            aRecord.current.innerHTML += "<p>--:--</p>";
         }
 
         if (teamTimes.b[i]) {
             const bTime = msToArrTime(teamTimes.b[i]);
-            bTimeLap.innerHTML += `<p>${bTime[0]}:${bTime[1]} ${bTime[2]} </p>`;
+            bRecord.current.innerHTML += `<p>${bTime[0]}:${bTime[1]} ${bTime[2]} </p>`;
         } else {
-            bTimeLap.innerHTML += "<p>--:--</p>";
+            bRecord.current.innerHTML += "<p>--:--</p>";
         }
     }
 };
 
 /**
- * Prep interval function.
- *
- * This function will be called every 10 ms.
- * It will calculate the remaining time for the preparation phase
- * and display it on the screen.
- * If the remaining time is less than or equal to 0, it will clear the interval
- * and call the startRace function.
- *
- * @param {number} limitTime - The time at which the preparation phase should end.
+ * Interval function for the preparation phase.
  */
 const prepInterval = (limitTime: number) => {
     const now = Date.now();
@@ -317,16 +327,6 @@ const prepInterval = (limitTime: number) => {
 
 /**
  * Interval function for the race phase.
- *
- * This function will be called every 10 ms.
- * It will calculate the elapsed time for the race phase
- * and display it on the screen.
- * If the elapsed time is greater than or equal to the race duration,
- * it will play the times up audio, pause the main theme audio,
- * display the race duration on the screen, clear the interval,
- * and set isTimerRunning to false.
- *
- * @param {number} beginTime - The time at which the race phase started.
  */
 const raceInterval = (beginTime: number) => {
     const nowTime = Date.now();
@@ -366,10 +366,7 @@ const teamReachFinish = () => {
 };
 
 /**
- * Play the checkpoint audio and save the current lap time to the specified team.
- * If the team has finished all laps, call teamReachFinish.
- * @param {teamName} teamName - The team name.
- * @throws {Error} If elapsedTime is undefined.
+ * Play the checkpoint audio and save the current lap time to the specified team's record.
  */
 const checkpointTeam = (teamName: "a" | "b"): void => {
     if (
@@ -393,30 +390,20 @@ const checkpointTeam = (teamName: "a" | "b"): void => {
 };
 
 /**
- * Updates the HTML elements with the given formatted time.
- *
- * @param {string[]} formattedTime - An array of three strings containing the minutes, seconds, and milliseconds respectively.
- * @throws {Error} If the HTML elements with the IDs "timeDisplay" and "timeDisplayMs" are not found.
+ * Updates the stopwatch display by setting the main and side counters from a pre-formatted time array.
  */
 const toDisplayHtml = (formattedTime: string[]) => {
-    const dispEl = document.getElementById("timeDisplay");
-    const displayMs = document.getElementById("timeDisplayMs");
+    _elementRefs.mainCounter.current.innerHTML = `${formattedTime[0]}:${formattedTime[1]}`;
 
-    if (!dispEl || !displayMs) throw new Error("display element not found");
-
-    dispEl.innerHTML = `${formattedTime[0]}:${formattedTime[1]}`;
-    displayMs.innerHTML = formattedTime[2];
+    _elementRefs.sideCounter.current.innerHTML = formattedTime[2];
 };
 
 /**
  * Converts a given time in milliseconds to an array of three strings containing the minutes, seconds, and milliseconds respectively.
- * The minutes and seconds are formatted to have two digits with leading zeros if necessary, while the milliseconds are formatted to have two digits without leading zeros.
- * @param {number} nMs - The time in milliseconds.
- * @returns {string[]} An array of three strings containing the minutes, seconds, and milliseconds respectively.
  */
 const msToArrTime = (nMs: number): string[] => {
     /**
-     * fungsi ini untuk menambahkan "0" pada angka yang di bawah 10
+     * This function adds a "0" prefix to numbers less than 10
      */
     const addPrefix = (n: number): string => {
         return n < 10 ? `0${n}` : `${n}`;
