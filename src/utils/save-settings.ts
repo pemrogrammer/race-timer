@@ -22,9 +22,9 @@ export default function saveSettings(
             ...currentSettings,
             ...newSettings,
             nLap: newSettings.nLap ?? currentSettings.nLap,
+            prep_time: newSettings.prep_time ?? currentSettings.prep_time,
             race_duration:
                 newSettings.race_duration ?? currentSettings.race_duration,
-            prep_time: newSettings.prep_time ?? currentSettings.prep_time,
         }),
     );
 }

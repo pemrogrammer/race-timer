@@ -11,15 +11,15 @@ export default function Layout() {
     return (
         <>
             <div className={styles.navContainer}>
-                <NavLink to="/" aria-label="stopwatch">
+                <NavLink aria-label="stopwatch" to="/">
                     <FontAwesomeIcon icon={faClock} />
                 </NavLink>
 
-                <NavLink to="/settings" aria-label="settings">
+                <NavLink aria-label="settings" to="/settings">
                     <FontAwesomeIcon icon={faCog} />
                 </NavLink>
 
-                <NavLink to="/info" aria-label="info">
+                <NavLink aria-label="info" to="/info">
                     <FontAwesomeIcon icon={faInfoCircle} />
                 </NavLink>
             </div>

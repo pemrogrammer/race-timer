@@ -18,9 +18,9 @@ createRoot(rootEl).render(
         <BrowserRouter>
             <Routes>
                 <Route element={<Layout />}>
-                    <Route path="/" element={<Stopwatch />} />
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="/info" element={<Info />} />
+                    <Route element={<Stopwatch />} path="/" />
+                    <Route element={<Settings />} path="/settings" />
+                    <Route element={<Info />} path="/info" />
                 </Route>
             </Routes>
         </BrowserRouter>

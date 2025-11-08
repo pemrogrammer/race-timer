@@ -1,26 +1,26 @@
 .buttonContainer {
-    margin-top: 3em;
     display: flex;
     flex-direction: row;
-    justify-content: center;
     gap: 3em;
+    justify-content: center;
+    margin-top: 3em;
 }
 
 .buttonContainer > button {
-    border: 0;
-    font-size: 2rem;
     font-family: "digital-7", sans-serif;
+    font-size: 2rem;
+    border: 0;
 }
 
 .form > input {
-    font-size: 1.2rem;
     font-family: "cyberspace", sans-serif;
+    font-size: 1.2rem;
     text-align: center;
 }
 
 .form > label {
-    font-family: "digital-7", sans-serif;
     display: block;
-    margin-bottom: 0.1rem;
     margin-top: 1rem;
+    margin-bottom: 0.1rem;
+    font-family: "digital-7", sans-serif;
 }

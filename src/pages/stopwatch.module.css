@@ -1,7 +1,7 @@
 .pageContainer {
+    height: 100vh;
     margin: 0;
     overflow: hidden;
-    height: 100vh;
 }
 
 .lapsContainer {
@@ -13,11 +13,11 @@
 .midLapNo {
     padding-top: 0.3rem;
     font-size: 1.5rem;
-    transform: scaleY(1.2);
-    -webkit-transform: scaleY(1.2); /* Safari and Chrome */
     -moz-transform: scaleY(1.2); /* Firefox */
     -ms-transform: scaleY(1.2); /* IE 9+ */
     -o-transform: scaleY(1.2); /* Opera */
+    -webkit-transform: scaleY(1.2); /* Safari and Chrome */
+    transform: scaleY(1.2); /* Opera */
 }
 
 .midLapNo > p {
@@ -25,54 +25,53 @@
 }
 
 .timeLap {
+    font-family: "digital-7", sans-serif;
     font-size: 4rem;
     color: whitesmoke;
-
-    font-family: "digital-7", sans-serif;
 }
 
 .timer {
-    font-family: "digital-7", sans-serif;
-    color: whitesmoke;
-    font-size: 14pt;
     display: flex;
-    align-items: flex-end;
     flex-direction: row;
-    align-content: flex-end;
-    justify-content: center;
     flex-wrap: nowrap;
+    align-content: flex-end;
+    align-items: flex-end;
+    justify-content: center;
+    font-family: "digital-7", sans-serif;
+    font-size: 14pt;
+    color: whitesmoke;
 }
 
 .bigNumber {
-    font-size: 10em;
     width: 2.2em;
+    font-size: 10em;
     text-align: left;
 }
 
 .smallNumber {
-    font-size: 5em;
-    text-align: right;
     width: 1em;
     margin-bottom: 0.2em;
+    font-size: 5em;
+    text-align: right;
 }
 
 .boxContainer {
-    margin: 1rem 0rem;
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: nowrap;
     flex-direction: row;
+    flex-wrap: nowrap;
     align-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 1rem 0rem;
 }
 
 .boxTeam {
-    transform: scaleY(1.1);
-    -webkit-transform: scaleY(1.1); /* Safari and Chrome */
+    letter-spacing: 5pt;
     -moz-transform: scaleY(1.1); /* Firefox */
     -ms-transform: scaleY(1.1); /* IE 9+ */
     -o-transform: scaleY(1.1); /* Opera */
-    letter-spacing: 5pt;
+    -webkit-transform: scaleY(1.1); /* Safari and Chrome */
+    transform: scaleY(1.1);
 }
 
 .redColor {
@@ -84,6 +83,6 @@
 }
 
 .teamName {
-    font-size: 1.8em;
     margin-bottom: 5px;
+    font-size: 1.8em;
 }
