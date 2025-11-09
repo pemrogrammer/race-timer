@@ -1,3 +1,4 @@
+import { faGithub, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import {
     faClock,
     faCog,
@@ -9,7 +10,14 @@ import { NavLink, Outlet } from "react-router";
 import packageJson from "../package.json";
 import styles from "./layout.module.css";
 
+const GITHUB_REPO_URL = "https://github.com/pemrogrammer/stopwatch";
+const GITHUB_ORG_URL = "https://github.com/pemrogrammer";
+const INSTAGRAM_URL = "https://instagram.com/pemrogrammer";
+
 export default function Layout() {
+    const currentYear = dayjs(packageJson.lastModified).format("YYYY");
+    const version = packageJson.version.split(".")[0];
+
     return (
         <>
             <div className={styles.navContainer}>
@@ -29,25 +37,39 @@ export default function Layout() {
             <Outlet />
 
             <footer className={styles.footer}>
-                <p>Race Timer v{packageJson.version.split(".")[0]}</p>
+                <div className={styles.footerRow}>
+                    <span>Race Timer v{version}</span>
+                    <a
+                        aria-label="GitHub Repository"
+                        className={styles.iconButton}
+                        href={GITHUB_REPO_URL}
+                        rel="noreferrer"
+                        target="_blank"
+                    >
+                        <FontAwesomeIcon icon={faGithub} />
+                    </a>
+                </div>
 
-                <div
-                    style={{
-                        color: "whitesmoke",
-                        fontFamily: "digital-7",
-                    }}
-                >
-                    <p>
-                        {dayjs(packageJson.lastModified).format("YYYY")}
-                        {" — "}
-                        <a
-                            href={packageJson.author.url}
-                            rel="noreferrer"
-                            target="_blank"
-                        >
-                            Klub Pemrograman TI POLNES
-                        </a>
-                    </p>
+                <div className={styles.footerRow}>
+                    <span>{currentYear} — Klub Pemrograman TI POLNES</span>
+                    <a
+                        aria-label="GitHub Organization"
+                        className={styles.iconButton}
+                        href={GITHUB_ORG_URL}
+                        rel="noreferrer"
+                        target="_blank"
+                    >
+                        <FontAwesomeIcon icon={faGithub} />
+                    </a>
+                    <a
+                        aria-label="Instagram"
+                        className={styles.iconButton}
+                        href={INSTAGRAM_URL}
+                        rel="noreferrer"
+                        target="_blank"
+                    >
+                        <FontAwesomeIcon icon={faInstagram} />
+                    </a>
                 </div>
             </footer>
         </>
