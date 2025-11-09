@@ -36,26 +36,21 @@ export default function Info() {
                     </tr>
                     <tr>
                         <td>5.</td>
-                        <td>o</td>
-                        <td>Mute/unmute sound FX</td>
+                        <td>m</td>
+                        <td>Mute/unmute sounds</td>
                     </tr>
                     <tr>
                         <td>6.</td>
-                        <td>p</td>
-                        <td>Mute/unmute background music</td>
-                    </tr>
-                    <tr>
-                        <td>7.</td>
                         <td>F11</td>
                         <td>Fullscreen/Exit Fullscreen</td>
                     </tr>
                     <tr>
-                        <td>8.</td>
+                        <td>7.</td>
                         <td>CTRL +</td>
                         <td>Zoom In</td>
                     </tr>
                     <tr>
-                        <td>9.</td>
+                        <td>8.</td>
                         <td>CTRL -</td>
                         <td>Zoom Out</td>
                     </tr>
