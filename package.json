@@ -1,4 +1,9 @@
 {
+    "author": {
+        "email": "pemrogrammer@gmail.com",
+        "name": "Klub Pemrograman TI Polnes",
+        "url": "https://github.com/pemrogrammer"
+    },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^7.1.0",
         "@fortawesome/free-solid-svg-icons": "^7.1.0",
@@ -19,8 +24,8 @@
         "typescript": "~5.9.3",
         "vite": "^7.2.1"
     },
-    "lastModified": "2025-11-06",
-    "name": "stopwatch",
+    "lastModified": "2025-11-09",
+    "name": "race-timer",
     "private": true,
     "scripts": {
         "build": "tsc -b && vite build",

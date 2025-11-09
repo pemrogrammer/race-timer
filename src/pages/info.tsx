@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-import packageJson from "../../package.json";
 import styles from "./info.module.css";
 
 export default function Info() {
@@ -63,13 +61,6 @@ export default function Info() {
                     </tr>
                 </tbody>
             </table>
-
-            <p>Race Stopwatch App v{packageJson.version}</p>
-
-            <div className={styles.copyright}>
-                <p>Klub Pemrograman TI POLNES</p>
-                <p>{dayjs(packageJson.lastModified).format("YYYY")}</p>
-            </div>
         </div>
     );
 }

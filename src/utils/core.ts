@@ -1,4 +1,5 @@
 import type { RefObject } from "react";
+import packageJson from "../../package.json";
 import getSettings from "./get-settings";
 import {
     pauseBgm,
@@ -54,6 +55,8 @@ type ElementRefsParam = {
 export function init({ elementRefs }: { elementRefs: ElementRefsParam }) {
     initElements(elementRefs);
     initVarState();
+
+    document.title = `Race Timer v${packageJson.version.split(".")[0]} — Klub Pemrograman TI POLNES`;
 
     const { prep_time, race_duration } = getSettings();
     prepDurationMs = prep_time * 1000;

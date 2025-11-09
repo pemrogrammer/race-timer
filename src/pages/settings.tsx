@@ -19,14 +19,6 @@ export default function Settings() {
             <p className="page-title">Setting</p>
 
             <div className={styles.form}>
-                <label htmlFor="compNameInput">Competition Name</label>
-                <input
-                    defaultValue={settings?.compName}
-                    id="compNameInput"
-                    placeholder="Competition Name"
-                    type="text"
-                />
-
                 <label htmlFor="race_duration">Race Duration (sec)</label>
                 <input
                     defaultValue={settings?.race_duration}
@@ -96,9 +88,6 @@ const handleReset = () => {
 };
 
 const handleSave = () => {
-    const compNameInput = document.getElementById(
-        "compNameInput",
-    ) as HTMLInputElement;
     const race_duration = document.getElementById(
         "race_duration",
     ) as HTMLInputElement;
@@ -115,7 +104,6 @@ const handleSave = () => {
     ) as HTMLInputElement;
 
     const newSettings = {
-        compName: compNameInput.value,
         midText: midTextInput.value,
         nLap: Number(nLapInput.value),
         prep_time: Number(prep_time.value),

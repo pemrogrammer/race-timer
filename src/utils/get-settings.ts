@@ -14,8 +14,6 @@ export default function getSettings(): typeof DEFAULT_SETTINGS {
         return DEFAULT_SETTINGS;
     }
 
-    document.title = DEFAULT_SETTINGS.compName;
-
     const storage = localStorage.getItem(SETTINGS_LS_KEY);
 
     if (!storage) {
@@ -24,8 +22,6 @@ export default function getSettings(): typeof DEFAULT_SETTINGS {
     }
 
     const settings = JSON.parse(storage);
-
-    document.title = settings.compName;
 
     return settings;
 }

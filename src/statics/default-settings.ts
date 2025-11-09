@@ -1,10 +1,7 @@
-import packageJson from "../../package.json";
-
 /**
  * Default Settings
  */
 const DEFAULT_SETTINGS = {
-    compName: `Race Stopwatch App v${packageJson.version}`,
     isBgmEnabled: true,
     isSfxEnabled: true,
     midText: "VS / Laps / Checkpoint",
