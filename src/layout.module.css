@@ -6,3 +6,17 @@
     gap: 0.5em;
     padding: 1em;
 }
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    padding: 1em;
+    font-size: 1em;
+    text-align: left;
+    opacity: 0.5;
+}
+
+.footer a {
+    font-size: inherit;
+    color: inherit;
+}
