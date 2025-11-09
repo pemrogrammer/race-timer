@@ -149,11 +149,8 @@ export function checkPressedKey(e: KeyboardEvent) {
             handleSpacePressed();
             break;
 
-        case 79: // == o
+        case 109: // == m
             toggleSfx();
-            break;
-
-        case 80: // == p
             toggleBgm();
             break;
 
