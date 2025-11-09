@@ -10,7 +10,7 @@ import { NavLink, Outlet } from "react-router";
 import packageJson from "../package.json";
 import styles from "./layout.module.css";
 
-const GITHUB_REPO_URL = "https://github.com/pemrogrammer/stopwatch";
+const GITHUB_REPO_URL = "https://github.com/pemrogrammer/race-timer";
 const GITHUB_ORG_URL = "https://github.com/pemrogrammer";
 const INSTAGRAM_URL = "https://instagram.com/pemrogrammer";
 
@@ -21,7 +21,7 @@ export default function Layout() {
     return (
         <>
             <div className={styles.navContainer}>
-                <NavLink aria-label="stopwatch" to="/">
+                <NavLink aria-label="timer" to="/">
                     <FontAwesomeIcon icon={faClock} />
                 </NavLink>
 

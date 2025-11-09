@@ -17,12 +17,12 @@ export default function Info() {
                     <tr>
                         <td>1.</td>
                         <td>Space</td>
-                        <td>Start/pause Stopwatch</td>
+                        <td>Start/pause Timer</td>
                     </tr>
                     <tr>
                         <td>2.</td>
                         <td>r</td>
-                        <td>Stopwatch Reset (pause first)</td>
+                        <td>Timer Reset (pause first)</td>
                     </tr>
                     <tr>
                         <td>3.</td>
