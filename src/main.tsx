@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import Layout from "./layout";
 import Info from "./pages/info";
 import Settings from "./pages/settings";
-import Stopwatch from "./pages/stopwatch";
+import Timer from "./pages/timer";
 import "./main.css";
 
 const rootEl = document.getElementById("root");
@@ -18,7 +18,7 @@ createRoot(rootEl).render(
         <BrowserRouter>
             <Routes>
                 <Route element={<Layout />}>
-                    <Route element={<Stopwatch />} path="/" />
+                    <Route element={<Timer />} path="/" />
                     <Route element={<Settings />} path="/settings" />
                     <Route element={<Info />} path="/info" />
                 </Route>

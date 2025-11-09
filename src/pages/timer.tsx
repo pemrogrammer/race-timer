@@ -3,9 +3,9 @@
 import { useEffect, useRef } from "react";
 import Audios from "../components/audios.js";
 import { checkPressedKey, init } from "../utils/core.js";
-import styles from "./stopwatch.module.css";
+import styles from "./timer.module.css";
 
-export default function Stopwatch() {
+export default function Timer() {
     const mainCounterRef = useRef<HTMLDivElement>(null);
     const sideCounterRef = useRef<HTMLDivElement>(null);
     const midTextRef = useRef<HTMLDivElement>(null);

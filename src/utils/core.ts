@@ -50,7 +50,7 @@ type ElementRefsParam = {
 };
 
 /**
- * Initialize stopwatch state and elements
+ * Initialize timer state and elements
  */
 export function init({ elementRefs }: { elementRefs: ElementRefsParam }) {
     initElements(elementRefs);
@@ -393,7 +393,7 @@ const checkpointTeam = (teamName: "a" | "b"): void => {
 };
 
 /**
- * Updates the stopwatch display by setting the main and side counters from a pre-formatted time array.
+ * Updates the timer display by setting the main and side counters from a pre-formatted time array.
  */
 const toDisplayHtml = (formattedTime: string[]) => {
     _elementRefs.mainCounter.current.innerHTML = `${formattedTime[0]}:${formattedTime[1]}`;
